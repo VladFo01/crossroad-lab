@@ -28,14 +28,16 @@ namespace RoadClasses {
         }
     }
 
-    interface ofCell {
-        massive: Cell[][];
-    }
+    class Crossroad {
+        //to do
+    };
 
-    interface mainElement {
-        MatrixSize: number;
-        Matrix: Cell[][];
-        Highway: Connection[];
+    class RoundAbout {
+        //to do
+    };
+
+    class Sidewalk {
+        // to do
     }
 
     enum conDirection { Vertical, Horizontal };
@@ -47,20 +49,19 @@ namespace RoadClasses {
             if (direction == conDirection.Horizontal) {
                 Matrix[y][x].Crosswalk = true;
                 Matrix[y + 1][x].Crosswalk = true;
-                Matrix[y][x + length].Crosswalk = true;
-                Matrix[y + 1][x + length].Crosswalk = true;
+                Matrix[y][x + length - 1].Crosswalk = true;
+                Matrix[y + 1][x + length - 1].Crosswalk = true;
             }
             else {
                 Matrix[y][x].Crosswalk = true;
                 Matrix[y][x + 1].Crosswalk = true;
-                Matrix[y + length][x].Crosswalk = true;
-                Matrix[y + length][x + 1].Crosswalk = true;
+                Matrix[y + length - 1][x].Crosswalk = true;
+                Matrix[y + length - 1][x + 1].Crosswalk = true;
             }
         }
     }
 
-    class Connection implements ofCell {
-        massive: Cell[][];
+    class Connection  {
         crosswalk: Crosswalk;
         constructor(Matrix: Cell[][], x: number, y: number, direction: conDirection, length: number) {
             this.crosswalk = new Crosswalk(Matrix, x, y, direction, length);
@@ -80,10 +81,12 @@ namespace RoadClasses {
         }
     }
 
-    export class RoadMat implements mainElement { // Facade
+    export class RoadMat { // Facade
         MatrixSize: number;
         Matrix: Cell[][];
         Highway: Connection[];
+        Crossroads: Crossroad[];
+        RoundAbouts: RoundAbout[];
 
         constructor(size: number) {
             this.MatrixSize = size;
@@ -95,19 +98,22 @@ namespace RoadClasses {
                     this.Matrix[i][j] = new Cell(false, false, false);
                 }
             }
-            this.Highway[0] = new Connection(this.Matrix, 0, 0, conDirection.Horizontal, 40);
-            this.Highway[1] = new Connection(this.Matrix, 5, 5, conDirection.Vertical, 40);
+            this.Highway[0] = new Connection(this.Matrix, 0, 0, conDirection.Horizontal, 9);
+            this.Highway[1] = new Connection(this.Matrix, 2, 2, conDirection.Vertical, 7);
+
+            if (!this.Check()) {
+                throw new Error("Something went wrong");
+            }
         }
 
         Check(): boolean {
-            // will be done
+            // to do
             return true;
         }
     }
-
 }
 
-const roadMatrix = new RoadClasses.RoadMat(50);
+const roadMatrix = new RoadClasses.RoadMat(10);
 for (var i = 0; i < roadMatrix.MatrixSize; i++)
     console.log(roadMatrix.Matrix[i][i].Rideability + ' ' + roadMatrix.Matrix[i][i].Crosswalk);
 
