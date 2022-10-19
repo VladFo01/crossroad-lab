@@ -1,6 +1,6 @@
 namespace RoadClasses {
     class Cell {
-        public isOccupied: boolean;
+        protected isOccupied: boolean;
         protected isRideable: boolean;
         protected hasCrosswalk: boolean;
         constructor(hasCrosswalk: boolean, occ: boolean, ride: boolean) {
@@ -15,7 +15,7 @@ namespace RoadClasses {
             return this.isOccupied;
         }
         set Rideability(occ: boolean) {
-            this.isOccupied = occ;
+            this.isRideable = occ;
         }
         get Rideability(): boolean {
             return this.isRideable;
@@ -29,7 +29,13 @@ namespace RoadClasses {
     }
 
     interface ofCell {
+        massive: Cell[][];
+    }
+
+    interface mainElement {
+        MatrixSize: number;
         Matrix: Cell[][];
+        Highway: Connection[];
     }
 
     enum conDirection { Vertical, Horizontal };
@@ -53,8 +59,8 @@ namespace RoadClasses {
         }
     }
 
-    class Connection {
-        //massive: Cell[][];
+    class Connection implements ofCell {
+        massive: Cell[][];
         crosswalk: Crosswalk;
         constructor(Matrix: Cell[][], x: number, y: number, direction: conDirection, length: number) {
             this.crosswalk = new Crosswalk(Matrix, x, y, direction, length);
@@ -74,7 +80,7 @@ namespace RoadClasses {
         }
     }
 
-    export class RoadMatrix implements ofCell { // Facade
+    export class RoadMat implements mainElement { // Facade
         MatrixSize: number;
         Matrix: Cell[][];
         Highway: Connection[];
@@ -97,10 +103,11 @@ namespace RoadClasses {
             // will be done
             return true;
         }
-    } 
+    }
 
 }
 
-const roadMatrix = new RoadClasses.RoadMatrix(50);
+const roadMatrix = new RoadClasses.RoadMat(50);
 for (var i = 0; i < roadMatrix.MatrixSize; i++)
-    console.log(roadMatrix.Matrix[i][i].isOccupied);
+    console.log(roadMatrix.Matrix[i][i].Rideability + ' ' + roadMatrix.Matrix[i][i].Crosswalk);
+
