@@ -18,22 +18,19 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".ts"]
       }
     }
   },
   "plugins": ["@typescript-eslint"],
-  "rules": { "import/prefer-default-export": "off",
-              "import/no-unresolved": "off",
-              "no-shadow": "off",
-              "import/extensions": [
-                "error",
-                "ignorePackages",
-                {
-                  "js": "never",
-                  "jsx": "never",
-                  "ts": "never",
-                  "tsx": "never"
-                }
-             ]}
+  "rules": {
+    "import/prefer-default-export": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never"
+      }
+    ]
+  }
 }
