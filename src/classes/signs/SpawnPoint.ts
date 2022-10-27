@@ -1,36 +1,25 @@
-import Cell from '../../roadElements/Cell';
 import { Direction } from '../../utils/constants/Direction';
 import entitySpawner from '../../services/EntitySpawner';
 import { RoadUser } from '../../trafficParticipants/RoadUser';
-import { Sign, SignProps } from "./Sign";
+import { SignWithState, SignWithStateProps } from './SignWithState';
 
-interface SpawnPointProps extends SignProps {
-    roadUserId: number
+interface SpawnPointProps extends SignWithStateProps {
     dir: Direction
-    cooldown: number
 }
 
-export class SpawnPoint extends Sign {
-    private cooldown: number
+export class SpawnPoint extends SignWithState {
+    private dir;
 
-    private timeOfNextSpawn: number
-
-    private roadUser: RoadUser
-
-    constructor({ cell, roadUserId, dir, cooldown, image }: SpawnPointProps) {
-        super({ cell, image });
+    constructor({ cell, dir, cooldown, image }: SpawnPointProps) {
+        super({ cell, image, cooldown });
         this.cooldown = cooldown;
-        this.roadUser = entitySpawner.spawn(roadUserId, dir);
-    }
-
-    private canSpawn(time: Date) {
-        return this.timeOfNextSpawn <= time.getTime();
+        this.dir = dir;
     }
 
     public spawnRoadUser() {
         this.cell.setOccupation = true;
         // TODO: implement setting roadUser to Cell
-        // this.cell.roadUser = this.roadUser;
-        this.timeOfNextSpawn = Date.now() + this.cooldown;
+        // this.cell.roadUser = entitySpawner.spawn(Math.ceil(Math.random() * 3), this.dir);
+        this.timeOfNextChangeState = Date.now() + this.cooldown;
     }
 }
