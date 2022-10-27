@@ -1,11 +1,11 @@
-import { RoadUser } from './RoadUser';
-import { Pedestrian } from './Pedestrian';
-import { Vehicle } from './Vehicle';
-import { SpecialTransport } from './SpecialTransport';
-import { Velocity } from './Velocity';
-import { Direction } from './Direction';
+import { RoadUser } from '../../trafficParticipants/RoadUser';
+import { Pedestrian } from '../../trafficParticipants/Pedestrian';
+import { Vehicle } from '../../trafficParticipants/Vehicle';
+import { SpecialTransport } from '../../trafficParticipants/SpecialTransport';
+import { Velocity } from '../../utils/constants/Velocity';
+import { Direction } from '../../utils/constants/Direction';
 
-export class EntitySpawner {
+class EntitySpawner {
     private pedestrianVel: number;
 
     private vehicleVel: number;
@@ -13,12 +13,12 @@ export class EntitySpawner {
     private specialVel: number;
 
     constructor() {
-        this.pedestrianVel = 1;
-        this.vehicleVel = 2;
-        this.specialVel = 3;
+        this.pedestrianVel = Velocity.PEDESTRIAN;
+        this.vehicleVel = Velocity.VEHICLE;
+        this.specialVel = Velocity.SPECIAL;
     }
 
-    spawn(id: number, dir: Direction): RoadUser {
+    public spawn(id: number, dir: Direction): RoadUser {
         let entity: RoadUser;
 
         switch (id) {
@@ -39,3 +39,5 @@ export class EntitySpawner {
         return entity;
     }
 }
+
+export default new EntitySpawner();

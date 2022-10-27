@@ -1,6 +1,6 @@
-import { Cell } from '../../roadClasses';
-import { Direction } from '../../trafficParticipants/Direction';
-import { EntitySpawner } from '../../trafficParticipants/EntitySpawner';
+import Cell from '../../roadElements/Cell';
+import { Direction } from '../../utils/constants/Direction';
+import entitySpawner from './EntitySpawner';
 import { RoadUser } from '../../trafficParticipants/RoadUser';
 import { Sign } from "./Sign";
 
@@ -14,7 +14,7 @@ export class SpawnPoint extends Sign {
     constructor(cell: Cell, roadUserId: number, dir: Direction, cooldown: number) {
         super(cell);
         this.cooldown = cooldown;
-        this.roadUser = EntitySpawner.spawn(roadUserId, dir);
+        this.roadUser = entitySpawner.spawn(roadUserId, dir);
     }
 
     public canSpawn(time: Date) {

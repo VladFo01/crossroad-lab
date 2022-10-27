@@ -1,1 +1,6 @@
-export enum conDirection { Vertical, Horizontal };
+export enum Direction {
+  UP = 'Up',
+  DOWN = 'Down',
+  LEFT = 'Left',
+  RIGTH = 'Right',
+}
