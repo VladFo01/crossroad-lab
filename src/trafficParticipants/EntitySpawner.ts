@@ -2,8 +2,10 @@ import { RoadUser } from './RoadUser';
 import { Pedestrian } from './Pedestrian';
 import { Vehicle } from './Vehicle';
 import { SpecialTransport } from './SpecialTransport';
+import { Velocity } from './Velocity';
+import { Direction } from './Direction';
 
-class EntitySpawner {
+export class EntitySpawner {
     private pedestrianVel: number;
 
     private vehicleVel: number;

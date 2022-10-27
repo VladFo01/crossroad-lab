@@ -1,9 +1,14 @@
 import { Cell } from '../../roadClasses';
 
 export class Sign {
-  protected cell: Cell;
+    protected cell: Cell;
 
-  constructor(cell: Cell) {
-    this.cell = cell;
-  }
+    protected image?: typeof Image;
+
+    constructor(cell: Cell, image) {
+        this.cell = cell;
+        this.image = image;
+    }
+
+
 }
