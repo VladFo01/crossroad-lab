@@ -1,5 +1,5 @@
 import Cell from './Cell'
-import { conDirection } from '../utils/constants/conDirection';
+import { conDirection } from '../../utils/constants/conDirection';
 import Connection from './Connection';
 import Crossroad from './Crossroad';
 import RoundAbout from './RoundAbout'

@@ -1,4 +1,4 @@
-import Cell from '../../roadElements/Cell';
+import Cell from '../roadElements/Cell';
 
 export interface SignProps {
     cell: Cell

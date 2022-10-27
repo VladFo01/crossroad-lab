@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import Cell from './Cell'
-import { conDirection } from '../utils/constants/conDirection';
+import { conDirection } from '../../utils/constants/conDirection';
 
 export default class Connection {
 

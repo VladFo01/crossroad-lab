@@ -1,7 +1,7 @@
-import { RoadUser } from '../trafficParticipants/RoadUser';
-import { Pedestrian } from '../trafficParticipants/Pedestrian';
-import { Vehicle } from '../trafficParticipants/Vehicle';
-import { SpecialTransport } from '../trafficParticipants/SpecialTransport';
+import { RoadUser } from '../classes/trafficParticipants/RoadUser';
+import { Pedestrian } from '../classes/trafficParticipants/Pedestrian';
+import { Vehicle } from '../classes/trafficParticipants/Vehicle';
+import { SpecialTransport } from '../classes/trafficParticipants/SpecialTransport';
 import { Velocity } from '../utils/constants/Velocity';
 import { Direction } from '../utils/constants/Direction';
 
