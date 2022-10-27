@@ -1,9 +1,9 @@
-import { RoadUser } from '../../trafficParticipants/RoadUser';
-import { Pedestrian } from '../../trafficParticipants/Pedestrian';
-import { Vehicle } from '../../trafficParticipants/Vehicle';
-import { SpecialTransport } from '../../trafficParticipants/SpecialTransport';
-import { Velocity } from '../../utils/constants/Velocity';
-import { Direction } from '../../utils/constants/Direction';
+import { RoadUser } from '../trafficParticipants/RoadUser';
+import { Pedestrian } from '../trafficParticipants/Pedestrian';
+import { Vehicle } from '../trafficParticipants/Vehicle';
+import { SpecialTransport } from '../trafficParticipants/SpecialTransport';
+import { Velocity } from '../utils/constants/Velocity';
+import { Direction } from '../utils/constants/Direction';
 
 class EntitySpawner {
     private pedestrianVel: number;
