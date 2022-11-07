@@ -22,7 +22,7 @@ export default class RoadMatrix { // Facade
         for (let i = 0; i < this.MatrixSize; i++) {
             this.Matrix.push([]);
             for (let j = 0; j < size; j++) {
-                this.Matrix[i][j] = new Cell(false, false);
+                this.Matrix[i][j] = new Cell(null, false);
             }
         }
         this.Highway[0] = new Connection(this.Matrix, 0, 0, conDirection.Horizontal, 9);

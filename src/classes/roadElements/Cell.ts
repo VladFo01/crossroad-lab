@@ -1,19 +1,20 @@
+import { Occupiers } from "../../utils/constants/Occupiers";
 export default class Cell {
-    protected isOccupied: boolean;
+    protected occupiedBy: Occupiers | null;
 
     protected isRideable: boolean;
 
-    constructor(occ: boolean, ride: boolean) {
-        this.isOccupied = occ;
+    constructor(occ: Occupiers | null, ride: boolean) {
+        this.occupiedBy = occ;
         this.isRideable = ride;
     }
 
-    set setOccupation(occ: boolean) {
-        this.isOccupied = occ;
+    set setOccupation(occ: Occupiers | null) {
+        this.occupiedBy = occ;
     }
 
-    get Occupation(): boolean {
-        return this.isOccupied;
+    get Occupation(): Occupiers | null {
+        return this.occupiedBy;
     }
 
     set Rideability(occ: boolean) {
