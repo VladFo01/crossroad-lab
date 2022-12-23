@@ -5,10 +5,13 @@ import Connection from './Connection';
 import Crossroad from './Crossroad';
 import RoundAbout from './RoundAbout';
 
-export default class RoadMatrix{ // Facade
+export default class RoadMatrix{ 
+    
+    private static instance: RoadMatrix;
+
     private size: number;
 
-    public Matrix: Cell[][];
+    private Matrix: Cell[][];
 
     private Highway: Connection[];
 
@@ -16,7 +19,7 @@ export default class RoadMatrix{ // Facade
 
     private RoundAbouts: RoundAbout[];
 
-    constructor(size: number) {
+    protected constructor(size: number) {
         this.size = size;
         this.Matrix = new Array(0);
         this.Highway = new Array(0);
@@ -34,6 +37,11 @@ export default class RoadMatrix{ // Facade
         }
     }
 
+    public static createOnce(size:number): RoadMatrix {
+        if(!RoadMatrix.instance) RoadMatrix.instance = new RoadMatrix(size);
+        return RoadMatrix.instance;
+    }
+
     Check(): boolean {
         for(let i = 0; i < this.size; i++){
             for(let j = 0; j < this.size; j++){
@@ -49,3 +57,6 @@ export default class RoadMatrix{ // Facade
         return true;
     }
 }
+
+let Road : RoadMatrix = RoadMatrix.createOnce(50);
+
