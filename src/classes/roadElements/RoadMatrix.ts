@@ -8,7 +8,7 @@ import RoundAbout from './RoundAbout';
 export default class RoadMatrix{ // Facade
     private size: number;
 
-    private Matrix: Cell[][];
+    public Matrix: Cell[][];
 
     private Highway: Connection[];
 
