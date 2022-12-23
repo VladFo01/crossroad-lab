@@ -1,9 +1,11 @@
 /* eslint-disable no-param-reassign */
 import Cell from './Cell'
+import OfCell from './OfCell';
 import { conDirection } from '../../utils/constants/conDirection';
 
-export default class Connection {
-
+export default class Connection implements OfCell{
+    size: number;
+    massive:Cell[][];
     constructor(Matrix: Cell[][], x: number, y: number, direction: conDirection, length: number) {
         // to do
         if (direction === conDirection.Horizontal) {

@@ -1,25 +1,26 @@
-import Cell from './Cell'
+import Cell from './Cell';
+import OfCell from './OfCell';
 import { conDirection } from '../../utils/constants/conDirection';
 import Connection from './Connection';
 import Crossroad from './Crossroad';
-import RoundAbout from './RoundAbout'
+import RoundAbout from './RoundAbout';
 
-export default class RoadMatrix { // Facade
-    private MatrixSize: number;
+export default class RoadMatrix{ // Facade
+    private size: number;
 
-    public Matrix: Cell[][];
+    private Matrix: Cell[][];
 
-    public Highway: Connection[];
+    private Highway: Connection[];
 
-    public Crossroads: Crossroad[];
+    private Crossroads: Crossroad[];
 
-    public RoundAbouts: RoundAbout[];
+    private RoundAbouts: RoundAbout[];
 
     constructor(size: number) {
-        this.MatrixSize = size;
+        this.size = size;
         this.Matrix = new Array(0);
         this.Highway = new Array(0);
-        for (let i = 0; i < this.MatrixSize; i++) {
+        for (let i = 0; i < this.size; i++) {
             this.Matrix.push([]);
             for (let j = 0; j < size; j++) {
                 this.Matrix[i][j] = new Cell(null, false);
