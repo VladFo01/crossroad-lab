@@ -35,7 +35,17 @@ export default class RoadMatrix{ // Facade
     }
 
     Check(): boolean {
-        // to do
+        for(let i = 0; i < this.size; i++){
+            for(let j = 0; j < this.size; j++){
+                if(this.Matrix[i][j].Rideability === true &&
+                    (this.Matrix[i+1][j].Rideability === false || 
+                    this.Matrix[i][j+1].Rideability === false ||
+                    this.Matrix[i-1][j].Rideability === false ||
+                    this.Matrix[i][j-1].Rideability === false)){
+                        return false;
+                    }
+            }
+        }
         return true;
     }
 }
