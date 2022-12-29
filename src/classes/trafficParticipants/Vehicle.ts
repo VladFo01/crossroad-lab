@@ -3,7 +3,7 @@ import Cell from '../roadElements/Cell';
 import { RoadUser } from './RoadUser';
 
 export class Vehicle extends RoadUser {
-  public move(): boolean {
+  public move(): boolean | string {
     let xCurrent = this.cell.xCoordinate; // поточні координати
     let yCurrent = this.cell.yCoordinate;
 
@@ -33,11 +33,13 @@ export class Vehicle extends RoadUser {
         return false;
     }
 
-    let nextCell: Cell = this.cell.matrix.getCell(xNew, yNew);
-
-    if (!nextCell)  // якщо такої клітинки не існує
-      return false;
+    let nextCell = this.cell.matrix.getCell(xNew, yNew);
     
+    if (!nextCell) {  // якщо вийшли за краї матриці
+      this.cell.setOccupation = null;  // звільнення старої клітинки
+      return "out of bounds";
+    }
+
     if(!nextCell.rideability) // якщо по ній не можна проїхати
       return false;
 
