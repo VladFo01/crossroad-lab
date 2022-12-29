@@ -5,7 +5,7 @@ import Connection from './Connection';
 import Crossroad from './Crossroad';
 import RoundAbout from './RoundAbout';
 
-export default class RoadMatrix{ 
+export default class RoadMatrix { 
     
     private static instance: RoadMatrix;
 
@@ -26,7 +26,7 @@ export default class RoadMatrix{
         for (let i = 0; i < this.size; i++) {
             this.Matrix.push([]);
             for (let j = 0; j < size; j++) {
-                this.Matrix[i][j] = new Cell(null, false);
+                this.Matrix[i][j] = new Cell(this, null, false, i, j);
             }
         }
         this.Highway[0] = new Connection(this.Matrix, 0, 0, conDirection.Horizontal, 9);
@@ -45,16 +45,20 @@ export default class RoadMatrix{
     Check(): boolean {
         for(let i = 0; i < this.size; i++){
             for(let j = 0; j < this.size; j++){
-                if(this.Matrix[i][j].Rideability === true &&
-                    (this.Matrix[i+1][j].Rideability === false || 
-                    this.Matrix[i][j+1].Rideability === false ||
-                    this.Matrix[i-1][j].Rideability === false ||
-                    this.Matrix[i][j-1].Rideability === false)){
+                if(this.Matrix[i][j].rideability === true &&
+                    (this.Matrix[i+1][j].rideability === false || 
+                    this.Matrix[i][j+1].rideability === false ||
+                    this.Matrix[i-1][j].rideability === false ||
+                    this.Matrix[i][j-1].rideability === false)){
                         return false;
                     }
             }
         }
         return true;
+    }
+
+    public getCell(x: number, y: number): Cell | null {
+        return this.Matrix[x][y];
     }
 }
 
