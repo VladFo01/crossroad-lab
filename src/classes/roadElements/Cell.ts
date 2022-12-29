@@ -1,50 +1,51 @@
-import { Occupiers } from "../../utils/constants/Occupiers";
-import RoadMatrix from "./RoadMatrix";
+import { Occupiers } from '../../utils/constants/Occupiers';
+import RoadMatrix from './RoadMatrix';
 export default class Cell {
-    
-    protected occupiedBy: Occupiers;
+  protected occupiedBy: Occupiers;
 
-    protected isRideable: boolean;
+  protected isRideable: boolean;
 
-    protected readonly xCoord: number;
-    
-    protected readonly yCoord: number;
+  protected isWalkable: boolean;
 
-    protected readonly roadMatrix: RoadMatrix;
+  protected readonly xCoord: number;
 
-    constructor(roadMatrix: RoadMatrix, occ: Occupiers, ride: boolean, x: number, y: number) {
-        this.roadMatrix = roadMatrix;
-        this.occupiedBy = occ;
-        this.isRideable = ride;
-        this.xCoord = x;
-        this.yCoord = y;
-    }
+  protected readonly yCoord: number;
 
-    set setOccupation(occ: Occupiers) {
-        this.occupiedBy = occ;
-    }
+  protected readonly roadMatrix: RoadMatrix;
 
-    get occupation(): Occupiers | null {
-        return this.occupiedBy;
-    }
+  constructor(roadMatrix: RoadMatrix, occ: Occupiers, ride: boolean, x: number, y: number) {
+    this.roadMatrix = roadMatrix;
+    this.occupiedBy = occ;
+    this.isRideable = ride;
+    this.xCoord = x;
+    this.yCoord = y;
+  }
 
-    set rideability(occ: boolean) {
-        this.isRideable = occ;
-    }
+  set setOccupation(occ: Occupiers) {
+    this.occupiedBy = occ;
+  }
 
-    get rideability(): boolean {
-        return this.isRideable;
-    }
+  get occupation(): Occupiers | null {
+    return this.occupiedBy;
+  }
 
-    get yCoordinate(): number {
-        return this.yCoord;
-    }
+  set rideability(occ: boolean) {
+    this.isRideable = occ;
+  }
 
-    get xCoordinate(): number {
-        return this.yCoord;
-    }
+  get rideability(): boolean {
+    return this.isRideable;
+  }
 
-    get matrix(): RoadMatrix {
-        return this.roadMatrix;
-    }
+  get yCoordinate(): number {
+    return this.yCoord;
+  }
+
+  get xCoordinate(): number {
+    return this.yCoord;
+  }
+
+  get matrix(): RoadMatrix {
+    return this.roadMatrix;
+  }
 }

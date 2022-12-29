@@ -11,26 +11,26 @@ export default class RoadMatrix {
 
     private size: number;
 
-    private Matrix: Cell[][];
+    private matrix: Cell[][];
 
     private Highway: Connection[];
 
-    private Crossroads: Crossroad[];
+    private crossroads: Crossroad[];
 
-    private RoundAbouts: RoundAbout[];
+    private roundAbouts: RoundAbout[];
 
     protected constructor(size: number) {
         this.size = size;
-        this.Matrix = new Array(0);
+        this.matrix = new Array(0);
         this.Highway = new Array(0);
         for (let i = 0; i < this.size; i++) {
-            this.Matrix.push([]);
+            this.matrix.push([]);
             for (let j = 0; j < size; j++) {
-                this.Matrix[i][j] = new Cell(this, null, false, i, j);
+                this.matrix[i][j] = new Cell(this, null, false, i, j);
             }
         }
-        this.Highway[0] = new Connection(this.Matrix, 0, 0, conDirection.Horizontal, 9);
-        this.Highway[1] = new Connection(this.Matrix, 2, 2, conDirection.Vertical, 7);
+        this.Highway[0] = new Connection(this.matrix, 0, 0, conDirection.Horizontal, 9);
+        this.Highway[1] = new Connection(this.matrix, 2, 2, conDirection.Vertical, 7);
 
         if (!this.Check()) {
             throw new Error("Something went wrong");
@@ -45,11 +45,11 @@ export default class RoadMatrix {
     Check(): boolean {
         for(let i = 0; i < this.size; i++){
             for(let j = 0; j < this.size; j++){
-                if(this.Matrix[i][j].rideability === true &&
-                    (this.Matrix[i+1][j].rideability === false || 
-                    this.Matrix[i][j+1].rideability === false ||
-                    this.Matrix[i-1][j].rideability === false ||
-                    this.Matrix[i][j-1].rideability === false)){
+                if(this.matrix[i][j].rideability === true &&
+                    (this.matrix[i+1][j].rideability === false || 
+                    this.matrix[i][j+1].rideability === false ||
+                    this.matrix[i-1][j].rideability === false ||
+                    this.matrix[i][j-1].rideability === false)){
                         return false;
                     }
             }
@@ -58,9 +58,18 @@ export default class RoadMatrix {
     }
 
     public getCell(x: number, y: number): Cell | null {
-        return this.Matrix[x][y];
+        return this.matrix[x][y];
+    }
+
+    public createCrossroad(xCoord: number, yCoord: number): void | string {
+        if (this.size - 2 <= xCoord || this.size - 2 <= yCoord)
+            return "Invalid coordinates for the crossroad";
+        
+        let crossroad = new Crossroad(this, 2, xCoord, yCoord);
+
+        this.crossroads.push(crossroad);
     }
 }
 
-let Road : RoadMatrix = RoadMatrix.createOnce(50);
+let Road = RoadMatrix.createOnce(50);
 
