@@ -1,8 +1,10 @@
 import { Direction } from "../../utils/constants/Direction";
+import Cell from "../roadElements/Cell";
+import RoadMatrix from "../roadElements/RoadMatrix";
 
 
 export class RoadUser {
-  protected maxVelocity: number;
+  protected readonly maxVelocity: number;
 
   protected currentVelocity: number; // швидкість
 
@@ -10,13 +12,16 @@ export class RoadUser {
 
   protected isRoadFree: boolean; // для перевірки чи дозволено виконати наступний крок
 
-  protected priority: Priority;
+  protected readonly priority: Priority | null;
 
-  constructor(vel: number, dir: Direction) {
+  protected cell: Cell;
+
+  constructor(cell: Cell, priority: Priority, vel: number, dir: Direction) {
+    this.cell = cell;
     this.maxVelocity = vel;
     this.currentVelocity = this.maxVelocity;
     this.direction = dir;
-    this.priority = Priority.PEDESTRIAN;
+    this.priority = priority;
   }
 
   set setVelocity(vel: number) {
