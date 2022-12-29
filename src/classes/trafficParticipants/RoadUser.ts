@@ -1,3 +1,6 @@
+import { Direction } from "../../utils/constants/Direction";
+
+
 export class RoadUser {
   protected maxVelocity: number;
 
