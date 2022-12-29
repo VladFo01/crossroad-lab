@@ -1,11 +1,10 @@
+import { Cover } from '../../utils/constants/Cover';
 import { Occupiers } from '../../utils/constants/Occupiers';
 import RoadMatrix from './RoadMatrix';
 export default class Cell {
   protected occupiedBy: Occupiers;
 
-  protected isRideable: boolean;
-
-  protected isWalkable: boolean;
+  protected cover: Cover;
 
   protected readonly xCoord: number;
 
@@ -13,30 +12,36 @@ export default class Cell {
 
   protected readonly roadMatrix: RoadMatrix;
 
-  constructor(roadMatrix: RoadMatrix, occ: Occupiers, ride: boolean, x: number, y: number) {
+  constructor(
+    roadMatrix: RoadMatrix,
+    occ: Occupiers,
+    cover: Cover,
+    x: number,
+    y: number
+  ) {
     this.roadMatrix = roadMatrix;
     this.occupiedBy = occ;
-    this.isRideable = ride;
+    this.cover = cover;
     this.xCoord = x;
     this.yCoord = y;
   }
 
-  set setOccupation(occ: Occupiers) {
-    this.occupiedBy = occ;
+  set setOccupation(flag: Occupiers) {
+    this.occupiedBy = flag;
   }
 
   get occupation(): Occupiers | null {
     return this.occupiedBy;
   }
 
-  set rideability(occ: boolean) {
-    this.isRideable = occ;
+  set setCover(cover: Cover) {
+    this.cover = cover;
   }
 
-  get rideability(): boolean {
-    return this.isRideable;
+  get covering() : Cover {
+    return this.cover;
   }
-
+  
   get yCoordinate(): number {
     return this.yCoord;
   }

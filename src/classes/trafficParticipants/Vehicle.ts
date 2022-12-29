@@ -1,3 +1,4 @@
+import { Cover } from '../../utils/constants/Cover';
 import { Direction } from '../../utils/constants/Direction';
 import Cell from '../roadElements/Cell';
 import { RoadUser } from './RoadUser';
@@ -40,7 +41,7 @@ export class Vehicle extends RoadUser {
       return "out of bounds";
     }
 
-    if(!nextCell.rideability) // якщо по ній не можна проїхати
+    if(nextCell.covering != Cover.ROAD) // якщо по ній не можна проїхати
       return false;
 
     if(nextCell.occupation)

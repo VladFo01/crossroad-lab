@@ -1,11 +1,10 @@
-interface Example {
-  name: string;
-  id: number;
-}
+import RoadMatrix from "./classes/roadElements/RoadMatrix";
+import MatrixPrinter from "./utils/helpers/matrixPrinter";
 
-const exampleObject: Example = {
-  name: 'Vlad',
-  id: 1,
-};
+const matrix = RoadMatrix.createOnce(20);
 
-console.log(exampleObject);
+const printer = new MatrixPrinter(matrix);
+
+printer.print();
+
+
