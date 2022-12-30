@@ -1,4 +1,3 @@
-import { Cover } from '../../utils/constants/Cover';
 import { Direction } from '../../utils/constants/Direction';
 import Cell from '../roadElements/Cell';
 import { RoadUser } from './RoadUser';
@@ -34,14 +33,14 @@ export class Vehicle extends RoadUser {
         return false;
     }
 
-    let nextCell = this.cell.matrix.getCell(xNew, yNew);
+    let nextCell = this.cell.getMatrix.getCell(xNew, yNew);
     
     if (!nextCell) {  // якщо вийшли за краї матриці
       this.cell.setOccupation = null;  // звільнення старої клітинки
       return "out of bounds";
     }
 
-    if(nextCell.covering != Cover.ROAD) // якщо по ній не можна проїхати
+    if(!nextCell.getCover.canDrive) // якщо по ній не можна проїхати
       return false;
 
     if(nextCell.occupation)

@@ -1,4 +1,5 @@
 import RoadMatrix from '../../classes/roadElements/RoadMatrix';
+import { Occupier } from '../constants/Occupier';
 
 export default class MatrixPrinter {
   private matrix: RoadMatrix;
@@ -8,29 +9,49 @@ export default class MatrixPrinter {
   }
 
   public print(): void {
+    // console.clear();
     for (let i = 0; i < this.matrix.scale; i++) {
       for (let j = 0; j < this.matrix.scale; j++) {
         // print element based on covering of the sell
-        switch (this.matrix.getCell(j, i).covering) {
-          case 'Nothing':
-            process.stdout.write('  ');
-            break;
-          case 'Road':
-            process.stdout.write('R ');
-            break;
-          case 'Crossroad':
-            process.stdout.write('C ');
-            break;
-          case 'Walkside':
-            process.stdout.write('W ');
-            break;
-          default:
-            console.log(`Cannot recognize covering ${this.matrix.getCell(i, j).covering}`);
-            return;
-        }        
+        if (
+          this.matrix.getCell(i, j).getCover.canDrive &&
+          this.matrix.getCell(i, j).getCover.canWalk
+        ) {
+          process.stdout.write('P ');
+          continue;
+        }
+        if (this.matrix.getCell(i, j).getCover.crossroad) {
+          process.stdout.write('C ');
+          continue;
+        }
+        if (
+          this.matrix.getCell(i, j).getCover.canDrive &&
+          !this.matrix.getCell(i, j).getCover.canWalk
+        ) {
+          process.stdout.write('R ');
+          continue;
+        }
+        if (
+          !this.matrix.getCell(i, j).getCover.canDrive &&
+          this.matrix.getCell(i, j).getCover.canWalk
+        ) {
+          process.stdout.write('W ');
+          continue;
+        }
+        if (
+          !this.matrix.getCell(i, j).getCover.canDrive &&
+          !this.matrix.getCell(i, j).getCover.canWalk
+        ) {
+          process.stdout.write('  ');
+          continue;
+        }
+        console.log(`Cannot resolve type of cover in the cell [${i},${j}]`);
+        return;
       }
       process.stdout.write('\n');
     }
-    console.log("All matrix was printed");
+    process.stdout.write('\n');
+
+    console.log('\nAll matrix was printed\n');
   }
 }

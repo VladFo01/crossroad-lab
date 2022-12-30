@@ -1,4 +1,6 @@
-import Cell from './Cell';
+import { Cover } from "./Cell";
+
 export default interface OfCell {
-  size: number;
+  get getCover(): Cover;
+  set setCover(cover: Cover);
 }
