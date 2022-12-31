@@ -1,4 +1,5 @@
 import { Direction } from '../../utils/constants/Direction';
+import { Occupier } from '../../utils/constants/Occupier';
 import Cell from '../roadElements/Cell';
 import { RoadUser } from './RoadUser';
 
@@ -24,31 +25,33 @@ export class Vehicle extends RoadUser {
         xNew = xCurrent - this.currentVelocity;
         yNew = yCurrent;
         break;
-      case 'Down':
+      case 'Right':
         xNew = xCurrent + this.currentVelocity;
         yNew = yCurrent;
         break;
       default:
-        console.log(`Cannot understand direction ${this.direction}`);
+        console.log(`Cannot recognize direction ${this.direction}`);
         return false;
     }
 
     let nextCell = this.cell.getMatrix.getCell(xNew, yNew);
-    
-    if (!nextCell) {  // якщо вийшли за краї матриці
-      this.cell.setOccupation = null;  // звільнення старої клітинки
-      return "out of bounds";
+
+    // якщо вийшли за краї матриці
+    if (!nextCell) {
+      this.cell.setOccupation = null; // звільнення старої клітинки
+      return 'out of bounds';
     }
 
-    if(!nextCell.getCover.canDrive) // якщо по ній не можна проїхати
-      return false;
+    // якщо по ній не можна проїхати
+    if (!nextCell.getCover.canDrive) return false;
 
-    if(nextCell.occupation)
-      return false;
+    // якщо наступна клітинка зайнята
+    if (nextCell.occupation) return false;
 
-    this.cell.setOccupation = null;  // звільнення старої клітинки
+    this.cell.setOccupation = null; // звільнення старої клітинки
 
     this.cell = nextCell;
+    this.cell.setOccupation = Occupier.VEHICLE;
 
     return true;
   }

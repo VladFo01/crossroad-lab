@@ -10,9 +10,11 @@ const matrix = RoadMatrix.createOnce(20);
 
 const entitySpawner = new EntitySpawner();
 
-const veh = entitySpawner.spawn(matrix.board[4][0], 2, Direction.DOWN);
+const veh = entitySpawner.spawn(matrix.board[0][4], 2, Direction.DOWN);
 
 const printer = new MatrixPrinter(matrix);
 
-printer.print();
-
+for (let i = 0; i < 21; i++) {
+  setTimeout(() => printer.print(), 500);
+  setTimeout(() => veh.move(), 500);
+}

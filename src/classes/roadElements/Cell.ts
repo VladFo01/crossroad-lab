@@ -63,7 +63,7 @@ export default class Cell implements OfCell {
   }
 
   get xCoordinate(): number {
-    return this.yCoord;
+    return this.xCoord;
   }
 
   get getMatrix(): RoadMatrix {

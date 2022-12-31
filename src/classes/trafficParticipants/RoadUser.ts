@@ -32,6 +32,10 @@ export class RoadUser {
     return this.currentVelocity;
   }
 
+  set setDirection(dir: Direction) {
+    this.direction = dir;
+  }
+
   get getDirection() {
     return this.direction;
   }

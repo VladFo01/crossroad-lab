@@ -13,6 +13,11 @@ export default class MatrixPrinter {
     for (let i = 0; i < this.matrix.scale; i++) {
       for (let j = 0; j < this.matrix.scale; j++) {
         // print element based on covering of the sell
+
+        if (this.matrix.getCell(i, j).occupation === Occupier.VEHICLE) {
+          process.stdout.write('V ');
+          continue;
+        }
         if (
           this.matrix.getCell(i, j).getCover.canDrive &&
           this.matrix.getCell(i, j).getCover.canWalk
@@ -51,7 +56,6 @@ export default class MatrixPrinter {
       process.stdout.write('\n');
     }
     process.stdout.write('\n');
-
-    console.log('\nAll matrix was printed\n');
+    console.log(`\n`);
   }
 }
