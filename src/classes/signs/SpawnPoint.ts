@@ -15,7 +15,6 @@ export class SpawnPoint extends SignWithState {
 
     constructor({ cell, dir, cooldown, image }: SpawnPointProps, occupier: Occupier) {
         super({ cell, image, cooldown });
-        this.cooldown = cooldown;
         this.dir = dir;
         this.occupier = occupier;
     }

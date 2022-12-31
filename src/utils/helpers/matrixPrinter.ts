@@ -22,7 +22,7 @@ export default class MatrixPrinter {
           this.matrix.getCell(i, j).getCover.canDrive &&
           this.matrix.getCell(i, j).getCover.canWalk
         ) {
-          process.stdout.write('P ');
+          process.stdout.write('= ');
           continue;
         }
         if (this.matrix.getCell(i, j).getCover.crossroad) {
@@ -33,14 +33,14 @@ export default class MatrixPrinter {
           this.matrix.getCell(i, j).getCover.canDrive &&
           !this.matrix.getCell(i, j).getCover.canWalk
         ) {
-          process.stdout.write('R ');
+          process.stdout.write('* ');
           continue;
         }
         if (
           !this.matrix.getCell(i, j).getCover.canDrive &&
           this.matrix.getCell(i, j).getCover.canWalk
         ) {
-          process.stdout.write('W ');
+          process.stdout.write('- ');
           continue;
         }
         if (

@@ -6,6 +6,7 @@ import RoundAbout from './RoundAbout';
 import { SpawnPoint } from '../signs/SpawnPoint';
 import { Occupier } from '../../utils/constants/Occupier';
 import { Direction } from '../../utils/constants/Direction';
+import Sidewalk from './Sidewalk';
 
 export default class RoadMatrix {
   private static instance: RoadMatrix;
@@ -18,9 +19,11 @@ export default class RoadMatrix {
 
   private spawnpoints: SpawnPoint[];
 
-  private sidewalks: Connection[];
+  private sidewalks: Sidewalk[];
 
   private crossroads: Crossroad[];
+
+  private crosswalks: Connection[];
 
   private roundAbouts: RoundAbout[];
 
@@ -28,7 +31,6 @@ export default class RoadMatrix {
   private readonly notACover = {canDrive: false, canWalk: false};
   private readonly roadCover = {canDrive: true, canWalk: false};
   private readonly sidewalkCover = {canDrive: false, canWalk: true};
-  private readonly crosswalkCover = {canDrive: true, canWalk: true};
   private readonly crossroadCover = {canDrive: true, canWalk: false, crossroad: true};
 
   protected constructor(size: number) {
@@ -37,6 +39,7 @@ export default class RoadMatrix {
     this.highway = new Array();
     this.crossroads = new Array();
     this.sidewalks = new Array();
+    this.crosswalks = new Array();
     this.roundAbouts = new Array();
     this.spawnpoints = new Array();
     
@@ -58,6 +61,16 @@ export default class RoadMatrix {
     this.createCrossroad(14, 3);
     this.createCrossroad(4, 15);
     this.createCrossroad(14,15);
+
+    this.sidewalks.push(new Sidewalk(this, 3, 0, conDirection.Vertical, 20, this.sidewalkCover));
+    this.sidewalks.push(new Sidewalk(this, 6, 0, conDirection.Vertical, 20, this.sidewalkCover));
+    this.sidewalks.push(new Sidewalk(this, 13, 0, conDirection.Vertical, 20, this.sidewalkCover));
+    this.sidewalks.push(new Sidewalk(this, 16, 0, conDirection.Vertical, 20, this.sidewalkCover));
+    
+    this.sidewalks.push(new Sidewalk(this, 0, 2, conDirection.Horizontal, 20, this.sidewalkCover));
+    this.sidewalks.push(new Sidewalk(this, 0, 5, conDirection.Horizontal, 20, this.sidewalkCover));
+    this.sidewalks.push(new Sidewalk(this, 0, 14, conDirection.Horizontal, 20, this.sidewalkCover));
+    this.sidewalks.push(new Sidewalk(this, 0, 17, conDirection.Horizontal, 20, this.sidewalkCover));
 
     this.spawnpoints.push(new SpawnPoint({cell: this.matrix[4][0], dir: Direction.DOWN, cooldown: 3000}, Occupier.VEHICLE));
     // END OF THE TESTBENCH SETUP

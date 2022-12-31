@@ -14,7 +14,12 @@ const veh = entitySpawner.spawn(matrix.board[0][4], 2, Direction.DOWN);
 
 const printer = new MatrixPrinter(matrix);
 
-for (let i = 0; i < 21; i++) {
-  setTimeout(() => printer.print(), 500);
-  setTimeout(() => veh.move(), 500);
-}
+console.clear();
+printer.print();
+veh.move();
+
+console.log(`V -> Vehicle`);
+console.log(`* -> Road`);
+console.log(`C -> Crossroad`);
+console.log(`- -> Sidewalk`);
+console.log(`= -> Crosswalk\n\n`);
