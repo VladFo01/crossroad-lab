@@ -1,1 +1,4 @@
-export enum conDirection { Vertical, Horizontal };
+export enum conDirection {
+  Vertical,
+  Horizontal,
+}

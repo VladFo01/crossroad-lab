@@ -1,6 +1,6 @@
 import { Direction } from "../../utils/constants/Direction";
+import { Priority } from "../../utils/constants/Priority";
 import Cell from "../roadElements/Cell";
-import RoadMatrix from "../roadElements/RoadMatrix";
 
 
 export class RoadUser {
@@ -32,6 +32,10 @@ export class RoadUser {
     return this.currentVelocity;
   }
 
+  set setDirection(dir: Direction) {
+    this.direction = dir;
+  }
+
   get getDirection() {
     return this.direction;
   }
@@ -54,5 +58,9 @@ export class RoadUser {
     } else {
       console.log('Has already stopped!');
     }
+  }
+
+  public move(): boolean | string {
+    return false;
   }
 }

@@ -5,8 +5,10 @@ import { SpecialTransport } from '../classes/trafficParticipants/SpecialTranspor
 import { Velocity } from '../utils/constants/Velocity';
 import { Direction } from '../utils/constants/Direction';
 import Cell from '../classes/roadElements/Cell';
+import { Priority } from '../utils/constants/Priority';
+import { Occupier } from '../utils/constants/Occupier';
 
-class EntitySpawner {
+export default class EntitySpawner {
   private pedestrianVel: number;
 
   private vehicleVel: number;
@@ -24,13 +26,16 @@ class EntitySpawner {
 
     switch (id) {
       case 1:
-        entity = new Pedestrian(cell, this.pedestrianVel, Priority.PEDESTRIAN, dir);
+        entity = new Pedestrian(cell, Priority.PEDESTRIAN, this.pedestrianVel, dir);
+        cell.setOccupation = Occupier.PEDESTRIAN;
         break;
       case 2:
-        entity = new Vehicle(cell, this.vehicleVel, Priority.VEHICLE, dir);
+        entity = new Vehicle(cell, Priority.VEHICLE, this.vehicleVel, dir);
+        cell.setOccupation = Occupier.VEHICLE;
         break;
       case 3:
-        entity = new SpecialTransport(cell, this.specialVel, Priority.SPECIAL, dir);
+        entity = new SpecialTransport(cell, Priority.SPECIAL, this.specialVel, dir);
+        cell.setOccupation = Occupier.SPECIAL_TRANSPORT;
         break;
       default:
         console.error(`Invalid data: id must be in scope of 1-3, your id is ${id}`);
@@ -40,5 +45,3 @@ class EntitySpawner {
     return entity;
   }
 }
-
-export default new EntitySpawner();
