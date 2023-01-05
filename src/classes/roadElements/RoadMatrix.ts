@@ -7,6 +7,7 @@ import { SpawnPoint } from '../signs/SpawnPoint';
 import { Occupier } from '../../utils/constants/Occupier';
 import { Direction } from '../../utils/constants/Direction';
 import Sidewalk from './Sidewalk';
+import ChangeDirectionMarker from '../signs/ChangeDirectionMarker';
 
 export default class RoadMatrix {
   private static instance: RoadMatrix;
@@ -23,6 +24,8 @@ export default class RoadMatrix {
 
   private crossroads: Crossroad[];
 
+  private directionMarkers: ChangeDirectionMarker[];
+
   private crosswalks: Connection[];
 
   private roundAbouts: RoundAbout[];
@@ -38,6 +41,7 @@ export default class RoadMatrix {
     this.matrix = new Array();
     this.highway = new Array();
     this.crossroads = new Array();
+    this.directionMarkers = new Array();
     this.sidewalks = new Array();
     this.crosswalks = new Array();
     this.roundAbouts = new Array();
@@ -90,7 +94,7 @@ export default class RoadMatrix {
     if (this.size - 2 <= xCoord || this.size - 2 <= yCoord)
       return 'Invalid coordinates for the crossroad';
 
-    let crossroad = new Crossroad(this, 2, xCoord, yCoord, this.crossroadCover);
+    let crossroad = new Crossroad(this, this.directionMarkers, 2, xCoord, yCoord, this.crossroadCover);
 
     this.crossroads.push(crossroad);
   }
@@ -101,7 +105,7 @@ export default class RoadMatrix {
   } */
 
   public getCell(x: number, y: number): Cell | null {
-    if (x >= this.size || y >= this.size) return null;
+    if (x >= this.size || y >= this.size || x < 0 || y < 0) return null;
     return this.matrix[x][y];
   }
 
@@ -111,6 +115,10 @@ export default class RoadMatrix {
 
   get scale(): number {
     return this.size;
+  }
+
+  get getDirectionMarkers(): ChangeDirectionMarker[] {
+    return this.directionMarkers;
   }
 
   /* Check(): boolean {

@@ -19,11 +19,13 @@ export default class Sidewalk {
       for (let i = x; i < x + length; i++) {
         if (matrix.board[y][i].getCover.canDrive) matrix.board[y][i].setCover = this.crosswalk;
         else matrix.board[y][i].setCover = cover;
+        matrix.board[y][i].setPossibleDirection = { left: true, right: true};
       }
     } else {
       for (let i = y; i < y + length; i++) {
         if (matrix.board[i][x].getCover.canDrive) matrix.board[i][x].setCover = this.crosswalk;
         else matrix.board[i][x].setCover = cover;
+        matrix.board[i][x].setPossibleDirection = { down: true, up: true };
       }
     }
   }

@@ -1,6 +1,5 @@
 import { Direction } from '../../utils/constants/Direction';
 import { Occupier } from '../../utils/constants/Occupier';
-import Cell from '../roadElements/Cell';
 import { RoadUser } from './RoadUser';
 
 export class Vehicle extends RoadUser {
@@ -11,7 +10,7 @@ export class Vehicle extends RoadUser {
     let xNew: number, yNew: number; // кінцеві координати
 
     switch (
-      this.direction // обчислення наступних координат
+      this.direction = this.cell.getDirection // обчислення наступних координат
     ) {
       case 'Up':
         xNew = xCurrent;
