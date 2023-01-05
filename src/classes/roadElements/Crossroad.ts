@@ -15,20 +15,20 @@ export default class Crossroad {
         roadMatrix.board[y][i].setPossibleDirection = { down: true, left: true };
         roadMatrix.board[y + 1][i].setPossibleDirection = { down: true, right: true };
         // set 'ChangeDirectionMarkers' related to each 'Crossroad' cell
-        roadMatrix.board[y - 2][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y][i]);
-        roadMatrix.board[y + 1][i - 2].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y + 1][i]);
+        roadMatrix.board[y][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y][i]);
+        roadMatrix.board[y + 1][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y + 1][i]);
         
-        markers.push(roadMatrix.board[y - 2][i].getChangeDirectionMarker);
-        markers.push(roadMatrix.board[y + 1][i - 2].getChangeDirectionMarker);
+        markers.push(roadMatrix.board[y][i].getChangeDirectionMarker);
+        markers.push(roadMatrix.board[y + 1][i].getChangeDirectionMarker);
       } else {
         roadMatrix.board[y][i].setPossibleDirection = { up: true, left: true };
         roadMatrix.board[y + 1][i].setPossibleDirection = { up: true, right: true };
         // set 'ChangeDirectionMarkers' related to each 'Crossroad' cell
-        roadMatrix.board[y][i + 2].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y][i]);
-        roadMatrix.board[y + 3][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y + 1][i]);
+        roadMatrix.board[y][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y][i]);
+        roadMatrix.board[y + 1][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y + 1][i]);
 
-        markers.push(roadMatrix.board[y][i + 2].getChangeDirectionMarker);
-        markers.push(roadMatrix.board[y + 3][i].getChangeDirectionMarker);
+        markers.push(roadMatrix.board[y][i].getChangeDirectionMarker);
+        markers.push(roadMatrix.board[y + 1][i].getChangeDirectionMarker);
       }
       roadMatrix.board[y][i].setCover = cover;
       roadMatrix.board[y + 1][i].setCover = cover;
