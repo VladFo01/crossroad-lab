@@ -33,6 +33,9 @@
         "ts": "never"
       }
     ],
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "no-array-constructor": "off",
+    "no-console": "off",
+    "lines-between-class-members": "off"
   }
 }

@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+
 import Cell from './Cell';
 import { conDirection } from '../../utils/constants/conDirection';
 import Connection from './Connection';
@@ -9,6 +11,7 @@ import { Direction } from '../../utils/constants/Direction';
 import Sidewalk from './Sidewalk';
 
 export default class RoadMatrix {
+  // eslint-disable-next-line no-use-before-define
   private static instance: RoadMatrix;
 
   private matrix: Cell[][];
@@ -28,21 +31,21 @@ export default class RoadMatrix {
   private roundAbouts: RoundAbout[];
 
   // types of cells
-  private readonly notACover = {canDrive: false, canWalk: false};
-  private readonly roadCover = {canDrive: true, canWalk: false};
-  private readonly sidewalkCover = {canDrive: false, canWalk: true};
-  private readonly crossroadCover = {canDrive: true, canWalk: false, crossroad: true};
+  private readonly notACover = { canDrive: false, canWalk: false };
+  private readonly roadCover = { canDrive: true, canWalk: false };
+  private readonly sidewalkCover = { canDrive: false, canWalk: true };
+  private readonly crossroadCover = { canDrive: true, canWalk: false, crossroad: true };
 
   protected constructor(size: number) {
     this.size = size;
-    this.matrix = new Array();
-    this.highway = new Array();
-    this.crossroads = new Array();
-    this.sidewalks = new Array();
-    this.crosswalks = new Array();
-    this.roundAbouts = new Array();
-    this.spawnpoints = new Array();
-    
+    this.matrix = [];
+    this.highway = [];
+    this.crossroads = [];
+    this.sidewalks = [];
+    this.crosswalks = [];
+    this.roundAbouts = [];
+    this.spawnpoints = [];
+
     // creating actual matrix
     for (let i = 0; i < this.size; i++) {
       this.matrix.push([]);
@@ -60,25 +63,29 @@ export default class RoadMatrix {
     this.createCrossroad(4, 3);
     this.createCrossroad(14, 3);
     this.createCrossroad(4, 15);
-    this.createCrossroad(14,15);
+    this.createCrossroad(14, 15);
 
     this.sidewalks.push(new Sidewalk(this, 3, 0, conDirection.Vertical, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 6, 0, conDirection.Vertical, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 13, 0, conDirection.Vertical, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 16, 0, conDirection.Vertical, 20, this.sidewalkCover));
-    
+
     this.sidewalks.push(new Sidewalk(this, 0, 2, conDirection.Horizontal, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 0, 5, conDirection.Horizontal, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 0, 14, conDirection.Horizontal, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 0, 17, conDirection.Horizontal, 20, this.sidewalkCover));
 
-    this.spawnpoints.push(new SpawnPoint({cell: this.matrix[4][0], dir: Direction.DOWN, cooldown: 3000}, Occupier.VEHICLE));
+    this.spawnpoints.push(
+      new SpawnPoint(
+        { cell: this.matrix[4][0], dir: Direction.DOWN, cooldown: 3000 },
+        Occupier.VEHICLE
+      )
+    );
     // END OF THE TESTBENCH SETUP
 
     /* if (!this.Check()) {
       throw new Error('Something went wrong');
     } */
-
   }
 
   public static createOnce(size: number): RoadMatrix {
@@ -90,7 +97,7 @@ export default class RoadMatrix {
     if (this.size - 2 <= xCoord || this.size - 2 <= yCoord)
       return 'Invalid coordinates for the crossroad';
 
-    let crossroad = new Crossroad(this, 2, xCoord, yCoord, this.crossroadCover);
+    const crossroad = new Crossroad(this, 2, xCoord, yCoord, this.crossroadCover);
 
     this.crossroads.push(crossroad);
   }
@@ -129,5 +136,4 @@ export default class RoadMatrix {
     }
     return true;
   } */
-
 }

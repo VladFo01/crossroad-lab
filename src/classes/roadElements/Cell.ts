@@ -1,5 +1,5 @@
 import { Occupier } from '../../utils/constants/Occupier';
-import { SpawnPoint } from '../signs/SpawnPoint';
+import { Sign } from '../signs/Sign';
 import OfCell from './OfCell';
 import RoadMatrix from './RoadMatrix';
 
@@ -10,9 +10,9 @@ export interface Cover {
 }
 
 export default class Cell implements OfCell {
-  protected occupiedBy: Occupier;
+  protected sign: Sign;
 
-  protected spawnPoint: SpawnPoint;
+  protected occupiedBy: Occupier;
 
   protected cover: Cover;
 
@@ -26,20 +26,22 @@ export default class Cell implements OfCell {
 
   protected readonly yCoord: number;
 
-  protected readonly roadMatrix: RoadMatrix;  
+  protected readonly roadMatrix: RoadMatrix;
 
-  constructor(
-    roadMatrix: RoadMatrix,
-    occ: Occupier,
-    cover: Cover,
-    x: number,
-    y: number
-  ) {
+  constructor(roadMatrix: RoadMatrix, occ: Occupier, cover: Cover, x: number, y: number) {
     this.roadMatrix = roadMatrix;
     this.occupiedBy = occ;
     this.cover = cover;
     this.xCoord = x;
     this.yCoord = y;
+  }
+
+  set setSign(sign: Sign) {
+    this.sign = sign;
+  }
+
+  get getSign(): Sign | null {
+    return this.sign;
   }
 
   set setOccupation(flag: Occupier) {
@@ -57,7 +59,7 @@ export default class Cell implements OfCell {
   get getCover(): Cover {
     return this.cover;
   }
-  
+
   get yCoordinate(): number {
     return this.yCoord;
   }
@@ -68,13 +70,5 @@ export default class Cell implements OfCell {
 
   get getMatrix(): RoadMatrix {
     return this.roadMatrix;
-  }
-
-  set setSpawn(spawnPoint: SpawnPoint) {
-    this.spawnPoint = spawnPoint;
-  }
-
-  get getSpawn(): SpawnPoint {
-    return this.spawnPoint;
   }
 }
