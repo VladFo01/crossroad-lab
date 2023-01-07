@@ -29,6 +29,10 @@ export class SignToChangeDirection extends Sign {
     }
 
     const nextDirection = this.getNextDirection();
+    if (nextDirection !== roadUser.getDirection) {
+      roadUser.increaseChangeDirectionAmount();
+    }
+
     roadUser.setDirection = nextDirection;
 
     return roadUser;
