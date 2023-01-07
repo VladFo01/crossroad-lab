@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import { Cover } from './Cell';
 import RoadMatrix from './RoadMatrix';
 
