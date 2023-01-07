@@ -1,10 +1,11 @@
-import { Direction } from "../../utils/constants/Direction";
-import { Priority } from "../../utils/constants/Priority";
-import Cell from "../roadElements/Cell";
-
+import { Direction } from '../../utils/constants/Direction';
+import { Priority } from '../../utils/constants/Priority';
+import Cell from '../roadElements/Cell';
 
 export class RoadUser {
   protected readonly maxVelocity: number;
+
+  protected changeDirectionAmount: number;
 
   protected currentVelocity: number; // швидкість
 
@@ -22,6 +23,8 @@ export class RoadUser {
     this.currentVelocity = this.maxVelocity;
     this.direction = dir;
     this.priority = priority;
+
+    this.changeDirectionAmount = 0;
   }
 
   set setVelocity(vel: number) {
@@ -44,6 +47,14 @@ export class RoadUser {
     return this.priority;
   }
 
+  get getChangeDirectionAmount() {
+    return this.changeDirectionAmount;
+  }
+
+  public increaseChangeDirectionAmount(): void {
+    this.changeDirectionAmount++;
+  }
+
   go(): void {
     if (this.currentVelocity === 0) {
       this.currentVelocity = this.maxVelocity;
@@ -60,6 +71,7 @@ export class RoadUser {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public move(): boolean | string {
     return false;
   }

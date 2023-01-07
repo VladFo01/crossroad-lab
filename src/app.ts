@@ -31,7 +31,7 @@ async function start() {
     console.clear();
     printer.print();
     vehicles.forEach((v) => v.move());
-    await delay(750);
+    await delay(500);
   }
 
   console.log(`V -> Vehicle`);

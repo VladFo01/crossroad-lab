@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { RoadUser } from '../classes/trafficParticipants/RoadUser';
 import { Pedestrian } from '../classes/trafficParticipants/Pedestrian';
 import { Vehicle } from '../classes/trafficParticipants/Vehicle';

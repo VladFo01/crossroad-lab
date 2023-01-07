@@ -1,14 +1,17 @@
-import { Direction } from '../../utils/constants/Direction';
 import { Occupier } from '../../utils/constants/Occupier';
-import Cell from '../roadElements/Cell';
 import { RoadUser } from './RoadUser';
 
 export class Vehicle extends RoadUser {
   public move(): boolean | string {
-    let xCurrent = this.cell.xCoordinate; // поточні координати
-    let yCurrent = this.cell.yCoordinate;
+    const xCurrent = this.cell.xCoordinate; // поточні координати
+    const yCurrent = this.cell.yCoordinate;
 
-    let xNew: number, yNew: number; // кінцеві координати
+    if (this.cell.getSign) {
+      this.cell.getSign.callback(this);
+    }
+
+    let xNew: number;
+    let yNew: number; // кінцеві координати
 
     switch (
       this.direction // обчислення наступних координат
@@ -34,7 +37,7 @@ export class Vehicle extends RoadUser {
         return false;
     }
 
-    let nextCell = this.cell.getMatrix.getCell(xNew, yNew);
+    const nextCell = this.cell.getMatrix.getCell(xNew, yNew);
 
     // якщо вийшли за краї матриці
     if (!nextCell) {
