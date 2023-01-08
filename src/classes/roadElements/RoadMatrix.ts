@@ -40,25 +40,31 @@ export default class RoadMatrix {
     this.roundAbouts = [];
     this.spawnpoints = [];
 
+    this.setMatrixCover();
+  }
+
+  private setMatrixCover() {
     // creating actual matrix
     for (let i = 0; i < this.size; i++) {
       this.matrix.push([]);
-      for (let j = 0; j < size; j++) {
+      for (let j = 0; j < this.size; j++) {
         this.matrix[i][j] = new Cell(this, null, this.notACover, i, j);
       }
     }
 
-    // START OF THE TESTBENCH SETUP
+    // setup highways
     this.highway.push(new Connection(this, 0, 3, conDirection.Horizontal, 20, this.roadCover));
     this.highway.push(new Connection(this, 0, 15, conDirection.Horizontal, 20, this.roadCover));
     this.highway.push(new Connection(this, 4, 0, conDirection.Vertical, 20, this.roadCover));
     this.highway.push(new Connection(this, 14, 0, conDirection.Vertical, 20, this.roadCover));
 
+    // setup crossroads
     this.createCrossroad(4, 3);
     this.createCrossroad(14, 3);
     this.createCrossroad(4, 15);
     this.createCrossroad(14, 15);
 
+    // settup sidewalks
     this.sidewalks.push(new Sidewalk(this, 3, 0, conDirection.Vertical, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 6, 0, conDirection.Vertical, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 13, 0, conDirection.Vertical, 20, this.sidewalkCover));
@@ -69,6 +75,7 @@ export default class RoadMatrix {
     this.sidewalks.push(new Sidewalk(this, 0, 14, conDirection.Horizontal, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 0, 17, conDirection.Horizontal, 20, this.sidewalkCover));
 
+    // setup spawnpoints
     this.spawnpoints.push(
       new SpawnPoint({
         cell: this.matrix[4][0],
@@ -77,11 +84,6 @@ export default class RoadMatrix {
         occupier: Occupier.VEHICLE,
       })
     );
-    // END OF THE TESTBENCH SETUP
-
-    /* if (!this.Check()) {
-      throw new Error('Something went wrong');
-    } */
   }
 
   public static createOnce(size: number): RoadMatrix {
@@ -149,21 +151,4 @@ export default class RoadMatrix {
     process.stdout.write('\n');
     console.log(`\n`);
   }
-
-  /* Check(): boolean {
-    for (let i = 0; i < this.size; i++) {
-      for (let j = 0; j < this.size; j++) {
-        if (
-          this.matrix[i][j].rideability === true &&
-          (this.matrix[i + 1][j].rideability === false ||
-            this.matrix[i][j + 1].rideability === false ||
-            this.matrix[i - 1][j].rideability === false ||
-            this.matrix[i][j - 1].rideability === false)
-        ) {
-          return false;
-        }
-      }
-    }
-    return true;
-  } */
 }
