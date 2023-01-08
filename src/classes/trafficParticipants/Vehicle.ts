@@ -1,4 +1,5 @@
 import { Occupier } from '../../utils/constants/Occupier';
+import { SignForInteraction } from '../signs/SignForInteraction';
 import { RoadUser } from './RoadUser';
 
 export class Vehicle extends RoadUser {
@@ -6,7 +7,7 @@ export class Vehicle extends RoadUser {
     const xCurrent = this.cell.xCoordinate; // поточні координати
     const yCurrent = this.cell.yCoordinate;
 
-    if (this.cell.getSign) {
+    if (this.cell.getSign && this.cell.getSign instanceof SignForInteraction) {
       this.cell.getSign.callback(this);
     }
 

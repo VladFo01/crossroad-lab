@@ -1,5 +1,6 @@
 import { Occupier } from '../../utils/constants/Occupier';
-import { Sign } from '../signs/Sign';
+import { SignForInteraction } from '../signs/SignForInteraction';
+import { SignWithStateProps } from '../signs/SignWithState';
 import OfCell from './OfCell';
 import RoadMatrix from './RoadMatrix';
 
@@ -10,7 +11,7 @@ export interface Cover {
 }
 
 export default class Cell implements OfCell {
-  protected sign: Sign;
+  protected sign: SignForInteraction | SignWithStateProps;
 
   protected occupiedBy: Occupier;
 
@@ -36,11 +37,11 @@ export default class Cell implements OfCell {
     this.yCoord = y;
   }
 
-  set setSign(sign: Sign) {
+  set setSign(sign: SignForInteraction | SignWithStateProps) {
     this.sign = sign;
   }
 
-  get getSign(): Sign | null {
+  get getSign(): SignForInteraction | SignWithStateProps | null {
     return this.sign;
   }
 

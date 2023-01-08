@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /* eslint-disable consistent-return */
 
 import Cell from './Cell';
@@ -15,19 +16,12 @@ export default class RoadMatrix {
   private static instance: RoadMatrix;
 
   private matrix: Cell[][];
-
   private size: number;
-
   private highway: Connection[];
-
   private spawnpoints: SpawnPoint[];
-
   private sidewalks: Sidewalk[];
-
   private crossroads: Crossroad[];
-
   private crosswalks: Connection[];
-
   private roundAbouts: RoundAbout[];
 
   // types of cells
@@ -46,25 +40,31 @@ export default class RoadMatrix {
     this.roundAbouts = [];
     this.spawnpoints = [];
 
+    this.setMatrixCover();
+  }
+
+  private setMatrixCover() {
     // creating actual matrix
     for (let i = 0; i < this.size; i++) {
       this.matrix.push([]);
-      for (let j = 0; j < size; j++) {
+      for (let j = 0; j < this.size; j++) {
         this.matrix[i][j] = new Cell(this, null, this.notACover, i, j);
       }
     }
 
-    // START OF THE TESTBENCH SETUP
+    // setup highways
     this.highway.push(new Connection(this, 0, 3, conDirection.Horizontal, 20, this.roadCover));
     this.highway.push(new Connection(this, 0, 15, conDirection.Horizontal, 20, this.roadCover));
     this.highway.push(new Connection(this, 4, 0, conDirection.Vertical, 20, this.roadCover));
     this.highway.push(new Connection(this, 14, 0, conDirection.Vertical, 20, this.roadCover));
 
+    // setup crossroads
     this.createCrossroad(4, 3);
     this.createCrossroad(14, 3);
     this.createCrossroad(4, 15);
     this.createCrossroad(14, 15);
 
+    // settup sidewalks
     this.sidewalks.push(new Sidewalk(this, 3, 0, conDirection.Vertical, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 6, 0, conDirection.Vertical, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 13, 0, conDirection.Vertical, 20, this.sidewalkCover));
@@ -75,17 +75,15 @@ export default class RoadMatrix {
     this.sidewalks.push(new Sidewalk(this, 0, 14, conDirection.Horizontal, 20, this.sidewalkCover));
     this.sidewalks.push(new Sidewalk(this, 0, 17, conDirection.Horizontal, 20, this.sidewalkCover));
 
+    // setup spawnpoints
     this.spawnpoints.push(
-      new SpawnPoint(
-        { cell: this.matrix[4][0], dir: Direction.DOWN, cooldown: 3000 },
-        Occupier.VEHICLE
-      )
+      new SpawnPoint({
+        cell: this.matrix[4][0],
+        dir: Direction.DOWN,
+        cooldown: 3000,
+        occupier: Occupier.VEHICLE,
+      })
     );
-    // END OF THE TESTBENCH SETUP
-
-    /* if (!this.Check()) {
-      throw new Error('Something went wrong');
-    } */
   }
 
   public static createOnce(size: number): RoadMatrix {
@@ -102,13 +100,8 @@ export default class RoadMatrix {
     this.crossroads.push(crossroad);
   }
 
-  /* // maybe need a better solution
-  setCrossroad(x: number, y: number) {
-    this.matrix[x][y].setCover = Cover.CROSSROAD;
-  } */
-
   public getCell(x: number, y: number): Cell | null {
-    if (x >= this.size || y >= this.size) return null;
+    if (x >= this.size || y >= this.size || x < 0 || y < 0) return null;
     return this.matrix[x][y];
   }
 
@@ -120,20 +113,42 @@ export default class RoadMatrix {
     return this.size;
   }
 
-  /* Check(): boolean {
+  public print(): void {
+    // console.clear();
     for (let i = 0; i < this.size; i++) {
       for (let j = 0; j < this.size; j++) {
-        if (
-          this.matrix[i][j].rideability === true &&
-          (this.matrix[i + 1][j].rideability === false ||
-            this.matrix[i][j + 1].rideability === false ||
-            this.matrix[i - 1][j].rideability === false ||
-            this.matrix[i][j - 1].rideability === false)
-        ) {
-          return false;
+        // print element based on covering of the sell
+
+        if (this.matrix[i][j].occupation === Occupier.VEHICLE) {
+          process.stdout.write('V ');
+          continue;
         }
+        if (this.matrix[i][j].getCover.canDrive && this.matrix[i][j].getCover.canWalk) {
+          process.stdout.write('= ');
+          continue;
+        }
+        if (this.matrix[i][j].getCover.crossroad) {
+          process.stdout.write('C ');
+          continue;
+        }
+        if (this.matrix[i][j].getCover.canDrive && !this.matrix[i][j].getCover.canWalk) {
+          process.stdout.write('* ');
+          continue;
+        }
+        if (!this.matrix[i][j].getCover.canDrive && this.matrix[i][j].getCover.canWalk) {
+          process.stdout.write('- ');
+          continue;
+        }
+        if (!this.matrix[i][j].getCover.canDrive && !this.matrix[i][j].getCover.canWalk) {
+          process.stdout.write('  ');
+          continue;
+        }
+        console.log(`Cannot resolve type of cover in the cell [${i},${j}]`);
+        return;
       }
+      process.stdout.write('\n');
     }
-    return true;
-  } */
+    process.stdout.write('\n');
+    console.log(`\n`);
+  }
 }
