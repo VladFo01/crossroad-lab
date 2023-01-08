@@ -1,6 +1,4 @@
-import { SignIsFor } from '../../utils/constants/signIsFor';
 import Cell from '../roadElements/Cell';
-import { RoadUser } from '../trafficParticipants/RoadUser';
 
 export interface SignProps {
   cell: Cell;
