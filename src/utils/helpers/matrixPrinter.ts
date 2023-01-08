@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 import RoadMatrix from '../../classes/roadElements/RoadMatrix';
 import { Occupier } from '../constants/Occupier';
 

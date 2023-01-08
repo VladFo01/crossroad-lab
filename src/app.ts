@@ -5,7 +5,6 @@ import entitySpawner from './services/EntitySpawner';
 import { Direction } from './utils/constants/Direction';
 import { Occupier } from './utils/constants/Occupier';
 import { delay } from './utils/helpers/delay';
-import MatrixPrinter from './utils/helpers/matrixPrinter';
 
 const vehicles: Vehicle[] = [];
 
@@ -24,13 +23,11 @@ async function start() {
   vehicles.push(entitySpawner.spawn(matrix.board[3][19], Occupier.VEHICLE, Direction.LEFT));
   vehicles.push(entitySpawner.spawn(matrix.board[15][19], Occupier.VEHICLE, Direction.LEFT));
 
-  const printer = new MatrixPrinter(matrix);
-
   for (let i = 0; i < 20; i++) {
     console.clear();
-    printer.print();
+    matrix.print();
     vehicles.forEach((v) => v.move());
-    await delay(1000);
+    await delay(500);
   }
 
   console.log(`V -> Vehicle`);

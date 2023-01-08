@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /* eslint-disable consistent-return */
 
 import Cell from './Cell';
@@ -9,7 +10,6 @@ import { SpawnPoint } from '../signs/SpawnPoint';
 import { Occupier } from '../../utils/constants/Occupier';
 import { Direction } from '../../utils/constants/Direction';
 import Sidewalk from './Sidewalk';
-import { Vehicle } from '../trafficParticipants/Vehicle';
 
 export default class RoadMatrix {
   // eslint-disable-next-line no-use-before-define
@@ -98,11 +98,6 @@ export default class RoadMatrix {
     this.crossroads.push(crossroad);
   }
 
-  /* // maybe need a better solution
-  setCrossroad(x: number, y: number) {
-    this.matrix[x][y].setCover = Cover.CROSSROAD;
-  } */
-
   public getCell(x: number, y: number): Cell | null {
     if (x >= this.size || y >= this.size || x < 0 || y < 0) return null;
     return this.matrix[x][y];
@@ -114,6 +109,45 @@ export default class RoadMatrix {
 
   get scale(): number {
     return this.size;
+  }
+
+  public print(): void {
+    // console.clear();
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size; j++) {
+        // print element based on covering of the sell
+
+        if (this.matrix[i][j].occupation === Occupier.VEHICLE) {
+          process.stdout.write('V ');
+          continue;
+        }
+        if (this.matrix[i][j].getCover.canDrive && this.matrix[i][j].getCover.canWalk) {
+          process.stdout.write('= ');
+          continue;
+        }
+        if (this.matrix[i][j].getCover.crossroad) {
+          process.stdout.write('C ');
+          continue;
+        }
+        if (this.matrix[i][j].getCover.canDrive && !this.matrix[i][j].getCover.canWalk) {
+          process.stdout.write('* ');
+          continue;
+        }
+        if (!this.matrix[i][j].getCover.canDrive && this.matrix[i][j].getCover.canWalk) {
+          process.stdout.write('- ');
+          continue;
+        }
+        if (!this.matrix[i][j].getCover.canDrive && !this.matrix[i][j].getCover.canWalk) {
+          process.stdout.write('  ');
+          continue;
+        }
+        console.log(`Cannot resolve type of cover in the cell [${i},${j}]`);
+        return;
+      }
+      process.stdout.write('\n');
+    }
+    process.stdout.write('\n');
+    console.log(`\n`);
   }
 
   /* Check(): boolean {
