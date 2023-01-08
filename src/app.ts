@@ -17,13 +17,13 @@ async function start() {
 
   vehicles.push(entitySpawner.spawn(matrix.board[0][4], 2, Direction.DOWN));
   vehicles.push(entitySpawner.spawn(matrix.board[0][14], 2, Direction.DOWN));
-  // vehicles.push(entitySpawner.spawn(matrix.board[19][5], 2, Direction.UP));
-  // vehicles.push(entitySpawner.spawn(matrix.board[19][15], 2, Direction.UP));
+  vehicles.push(entitySpawner.spawn(matrix.board[19][5], 2, Direction.UP));
+  vehicles.push(entitySpawner.spawn(matrix.board[19][15], 2, Direction.UP));
 
-  // vehicles.push(entitySpawner.spawn(matrix.board[4][0], 2, Direction.RIGHT));
-  // vehicles.push(entitySpawner.spawn(matrix.board[16][0], 2, Direction.RIGHT));
-  // vehicles.push(entitySpawner.spawn(matrix.board[3][19], 2, Direction.LEFT));
-  // vehicles.push(entitySpawner.spawn(matrix.board[15][19], 2, Direction.LEFT));
+  vehicles.push(entitySpawner.spawn(matrix.board[4][0], 2, Direction.RIGHT));
+  vehicles.push(entitySpawner.spawn(matrix.board[16][0], 2, Direction.RIGHT));
+  vehicles.push(entitySpawner.spawn(matrix.board[3][19], 2, Direction.LEFT));
+  vehicles.push(entitySpawner.spawn(matrix.board[15][19], 2, Direction.LEFT));
 
   const printer = new MatrixPrinter(matrix);
 

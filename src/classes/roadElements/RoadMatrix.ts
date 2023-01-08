@@ -108,7 +108,7 @@ export default class RoadMatrix {
   } */
 
   public getCell(x: number, y: number): Cell | null {
-    if (x >= this.size || y >= this.size) return null;
+    if (x >= this.size || y >= this.size || x < 0 || y < 0) return null;
     return this.matrix[x][y];
   }
 
