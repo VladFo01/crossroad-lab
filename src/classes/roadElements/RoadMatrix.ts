@@ -9,25 +9,19 @@ import { SpawnPoint } from '../signs/SpawnPoint';
 import { Occupier } from '../../utils/constants/Occupier';
 import { Direction } from '../../utils/constants/Direction';
 import Sidewalk from './Sidewalk';
+import { Vehicle } from '../trafficParticipants/Vehicle';
 
 export default class RoadMatrix {
   // eslint-disable-next-line no-use-before-define
   private static instance: RoadMatrix;
 
   private matrix: Cell[][];
-
   private size: number;
-
   private highway: Connection[];
-
   private spawnpoints: SpawnPoint[];
-
   private sidewalks: Sidewalk[];
-
   private crossroads: Crossroad[];
-
   private crosswalks: Connection[];
-
   private roundAbouts: RoundAbout[];
 
   // types of cells
@@ -76,10 +70,12 @@ export default class RoadMatrix {
     this.sidewalks.push(new Sidewalk(this, 0, 17, conDirection.Horizontal, 20, this.sidewalkCover));
 
     this.spawnpoints.push(
-      new SpawnPoint(
-        { cell: this.matrix[4][0], dir: Direction.DOWN, cooldown: 3000 },
-        Occupier.VEHICLE
-      )
+      new SpawnPoint({
+        cell: this.matrix[4][0],
+        dir: Direction.DOWN,
+        cooldown: 3000,
+        occupier: Occupier.VEHICLE,
+      })
     );
     // END OF THE TESTBENCH SETUP
 
