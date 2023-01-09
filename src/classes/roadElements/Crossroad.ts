@@ -1,4 +1,7 @@
-import ChangeDirectionMarker from '../signs/ChangeDirectionMarker';
+/* eslint-disable no-param-reassign */
+
+import { Direction } from '../../utils/constants/Direction';
+import { SignToChangeDirection } from '../signs/SingToChangeDirection';
 import { Cover } from './Cell';
 import RoadMatrix from './RoadMatrix';
 
@@ -7,31 +10,29 @@ export default class Crossroad {
 
   protected roadMatrix: RoadMatrix;
 
-  constructor(roadMatrix: RoadMatrix, markers: ChangeDirectionMarker[], size: number, x: number, y: number, cover: Cover) {
+  constructor(roadMatrix: RoadMatrix, size: number, x: number, y: number, cover: Cover) {
     this.size = size;
-    let helper = 0;
-    for (let i = x; i <= x + 1; i++) {
-      if (++helper === 1) { // first iteration
-        roadMatrix.board[y][i].setPossibleDirection = { down: true, left: true };
-        roadMatrix.board[y + 1][i].setPossibleDirection = { down: true, right: true };
-        // set 'ChangeDirectionMarkers' related to each 'Crossroad' cell
-        roadMatrix.board[y][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y][i]);
-        roadMatrix.board[y + 1][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y + 1][i]);
-        
-        markers.push(roadMatrix.board[y][i].getChangeDirectionMarker);
-        markers.push(roadMatrix.board[y + 1][i].getChangeDirectionMarker);
-      } else {
-        roadMatrix.board[y][i].setPossibleDirection = { up: true, left: true };
-        roadMatrix.board[y + 1][i].setPossibleDirection = { up: true, right: true };
-        // set 'ChangeDirectionMarkers' related to each 'Crossroad' cell
-        roadMatrix.board[y][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y][i]);
-        roadMatrix.board[y + 1][i].setChangeDirectionMarker = new ChangeDirectionMarker(roadMatrix.board[y + 1][i]);
 
-        markers.push(roadMatrix.board[y][i].getChangeDirectionMarker);
-        markers.push(roadMatrix.board[y + 1][i].getChangeDirectionMarker);
+    let currentIter = 0;
+    let mainDirection: Direction;
+    for (let i = x; i <= x + 1; i++) {
+      if (++currentIter === 1) {
+        mainDirection = Direction.DOWN;
+      } else {
+        mainDirection = Direction.UP;
       }
+
       roadMatrix.board[y][i].setCover = cover;
+      roadMatrix.board[y][i].setSign = new SignToChangeDirection({
+        cell: roadMatrix.board[y][i],
+        possibleDirections: [mainDirection, Direction.LEFT],
+      });
+
       roadMatrix.board[y + 1][i].setCover = cover;
+      roadMatrix.board[y + 1][i].setSign = new SignToChangeDirection({
+        cell: roadMatrix.board[y + 1][i],
+        possibleDirections: [mainDirection, Direction.RIGHT],
+      });
     }
     this.roadMatrix = roadMatrix;
   }

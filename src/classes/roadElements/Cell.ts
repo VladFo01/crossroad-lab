@@ -1,7 +1,7 @@
-import { Direction } from '../../utils/constants/Direction';
 import { Occupier } from '../../utils/constants/Occupier';
-import ChangeDirectionMarker from '../signs/ChangeDirectionMarker';
-import { SpawnPoint } from '../signs/SpawnPoint';
+import { SignForInteraction } from '../signs/SignForInteraction';
+import { SignWithStateProps } from '../signs/SignWithState';
+import { RoadUser } from '../trafficParticipants/RoadUser';
 import OfCell from './OfCell';
 import RoadMatrix from './RoadMatrix';
 
@@ -11,17 +11,12 @@ export interface Cover {
   crossroad?: boolean;
 }
 
-export interface MoveDirection {
-  up?: boolean;
-  left?: boolean;
-  right?: boolean;
-  down?: boolean;
-}
-
 export default class Cell implements OfCell {
+  protected sign: SignForInteraction | SignWithStateProps;
+
   protected occupiedBy: Occupier;
 
-  protected spawnPoint: SpawnPoint;
+  protected user: RoadUser;
 
   protected cover: Cover;
 
@@ -31,30 +26,26 @@ export default class Cell implements OfCell {
 
   protected isCrossroad: boolean;
 
-  protected possibleDirection: MoveDirection;
-
-  protected actualDirection: Direction;
-
-  protected changeDirection: ChangeDirectionMarker;
-
   protected readonly xCoord: number;
 
   protected readonly yCoord: number;
 
-  protected readonly roadMatrix: RoadMatrix;  
+  protected readonly roadMatrix: RoadMatrix;
 
-  constructor(
-    roadMatrix: RoadMatrix,
-    occ: Occupier,
-    cover: Cover,
-    x: number,
-    y: number
-  ) {
+  constructor(roadMatrix: RoadMatrix, occ: Occupier, cover: Cover, x: number, y: number) {
     this.roadMatrix = roadMatrix;
     this.occupiedBy = occ;
     this.cover = cover;
     this.xCoord = x;
     this.yCoord = y;
+  }
+
+  set setSign(sign: SignForInteraction | SignWithStateProps) {
+    this.sign = sign;
+  }
+
+  get getSign(): SignForInteraction | SignWithStateProps | null {
+    return this.sign;
   }
 
   set setOccupation(flag: Occupier) {
@@ -65,6 +56,14 @@ export default class Cell implements OfCell {
     return this.occupiedBy;
   }
 
+  set setUser(user: RoadUser) {
+    this.user = user;
+  }
+
+  get getUser(): RoadUser {
+    return this.user;
+  }
+
   set setCover(cover: Cover) {
     this.cover = cover;
   }
@@ -73,30 +72,6 @@ export default class Cell implements OfCell {
     return this.cover;
   }
 
-  set setPossibleDirection(dir: MoveDirection) {
-    this.possibleDirection = dir;
-  }
-
-  set setChangeDirectionMarker(dirMark: ChangeDirectionMarker) {
-    this.changeDirection = dirMark;
-  }
-
-  get getChangeDirectionMarker(): ChangeDirectionMarker {
-    return this.changeDirection;
-  }
-
-  get getPossibleDirection():  MoveDirection {
-    return this.possibleDirection;
-  }
-
-  set setDirection(dir: Direction) {
-    this.actualDirection = dir;
-  }
-
-  get getDirection(): Direction {
-    return this.actualDirection;
-  }
-  
   get yCoordinate(): number {
     return this.yCoord;
   }
@@ -107,13 +82,5 @@ export default class Cell implements OfCell {
 
   get getMatrix(): RoadMatrix {
     return this.roadMatrix;
-  }
-
-  set setSpawn(spawnPoint: SpawnPoint) {
-    this.spawnPoint = spawnPoint;
-  }
-
-  get getSpawn(): SpawnPoint {
-    return this.spawnPoint;
   }
 }

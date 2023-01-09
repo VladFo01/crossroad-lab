@@ -1,16 +1,21 @@
-import { Direction } from '../../utils/constants/Direction';
 import { Occupier } from '../../utils/constants/Occupier';
+import { SignForInteraction } from '../signs/SignForInteraction';
 import { RoadUser } from './RoadUser';
 
 export class Vehicle extends RoadUser {
   public move(): boolean | string {
-    let xCurrent = this.cell.xCoordinate; // поточні координати
-    let yCurrent = this.cell.yCoordinate;
+    const xCurrent = this.cell.xCoordinate; // поточні координати
+    const yCurrent = this.cell.yCoordinate;
 
-    let xNew: number, yNew: number; // кінцеві координати
+    if (this.cell.getSign && this.cell.getSign instanceof SignForInteraction) {
+      this.cell.getSign.callback(this);
+    }
+
+    let xNew: number;
+    let yNew: number; // кінцеві координати
 
     switch (
-      this.direction = this.cell.getDirection // обчислення наступних координат
+      this.direction // обчислення наступних координат
     ) {
       case 'Up':
         xNew = xCurrent;
@@ -33,7 +38,7 @@ export class Vehicle extends RoadUser {
         return false;
     }
 
-    let nextCell = this.cell.getMatrix.getCell(xNew, yNew);
+    const nextCell = this.cell.getMatrix.getCell(xNew, yNew);
 
     // якщо вийшли за краї матриці
     if (!nextCell) {
@@ -48,9 +53,11 @@ export class Vehicle extends RoadUser {
     if (nextCell.occupation) return false;
 
     this.cell.setOccupation = null; // звільнення старої клітинки
+    this.cell.setUser = null;
 
     this.cell = nextCell;
     this.cell.setOccupation = Occupier.VEHICLE;
+    this.cell.setUser = this;
 
     return true;
   }

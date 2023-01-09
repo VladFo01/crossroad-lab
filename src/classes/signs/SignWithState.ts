@@ -1,21 +1,32 @@
-import { Sign, SignProps } from "./Sign";
+import { Sign, SignProps } from './Sign';
 
 export interface SignWithStateProps extends SignProps {
-    cooldown: number
+  cooldown: number;
 }
 
 export class SignWithState extends Sign {
-    protected cooldown: number
+  protected cooldown: number;
+  protected timeOfNextChangeState: number;
 
-    protected timeOfNextChangeState: number
+  constructor({ cooldown, image, cell }: SignWithStateProps) {
+    super({ image, cell });
+    this.cooldown = cooldown;
 
-    constructor({ cooldown, image, cell }: SignWithStateProps) {
-        super({ image, cell });
-        this.cooldown = cooldown;
-        this.timeOfNextChangeState = Date.now() + this.cooldown;
+    this.updateTimeOfNextChangeState();
+  }
+
+  protected canChangeState() {
+    const currentTime = Date.now();
+
+    if (this.timeOfNextChangeState >= currentTime) {
+      this.updateTimeOfNextChangeState();
+      return true;
     }
 
-    public canChangeState(time: Date) {
-        return this.timeOfNextChangeState <= time.getTime();
-    }
+    return false;
+  }
+
+  protected updateTimeOfNextChangeState() {
+    this.timeOfNextChangeState = Date.now() + this.cooldown;
+  }
 }

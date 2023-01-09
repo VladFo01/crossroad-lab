@@ -1,19 +1,16 @@
 import Cell from '../roadElements/Cell';
 
 export interface SignProps {
-    cell: Cell
-    image?: string
+  cell: Cell;
+  image?: string;
 }
 
 export class Sign {
-    protected cell: Cell;
+  protected cell: Cell;
+  protected image?: string;
 
-    protected image?: string;
-
-    constructor({ cell, image }: SignProps) {
-        this.cell = cell;
-        this.image = image;
-    }
-
-
+  constructor({ cell, image }: SignProps) {
+    this.cell = cell;
+    this.image = image;
+  }
 }
