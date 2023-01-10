@@ -9,7 +9,7 @@ export class SignWithState extends Sign {
   protected timeOfNextChangeState: number;
 
   constructor({ cooldown, image, cell }: SignWithStateProps) {
-    super({ image, cell });
+    super({ cell: cell, image: image });
     this.cooldown = cooldown;
 
     this.updateTimeOfNextChangeState();
@@ -18,7 +18,7 @@ export class SignWithState extends Sign {
   protected canChangeState() {
     const currentTime = Date.now();
 
-    if (this.timeOfNextChangeState >= currentTime) {
+    if (this.timeOfNextChangeState <= currentTime) {
       this.updateTimeOfNextChangeState();
       return true;
     }

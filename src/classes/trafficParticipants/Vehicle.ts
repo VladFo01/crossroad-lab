@@ -42,7 +42,7 @@ export class Vehicle extends RoadUser {
 
     // якщо вийшли за краї матриці
     if (!nextCell) {
-      this.cell.setOccupation = null; // звільнення старої клітинки
+      this.cell.setUser = null; // звільнення старої клітинки
       return 'out of bounds';
     }
 
@@ -50,13 +50,11 @@ export class Vehicle extends RoadUser {
     if (!nextCell.getCover.canDrive) return false;
 
     // якщо наступна клітинка зайнята
-    if (nextCell.occupation) return false;
+    if (nextCell.getUser) return false;
 
-    this.cell.setOccupation = null; // звільнення старої клітинки
-    this.cell.setUser = null;
+    this.cell.setUser = null; // звільнення старої клітинки
 
     this.cell = nextCell;
-    this.cell.setOccupation = Occupier.VEHICLE;
     this.cell.setUser = this;
 
     return true;

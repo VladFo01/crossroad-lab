@@ -21,21 +21,18 @@ class EntitySpawner {
   }
 
   public spawn(cell: Cell, occ: Occupier, dir: Direction): RoadUser {
-    if (cell.occupation) return null;
+    if (cell.getUser) return null;
     let entity: RoadUser;
 
     switch (occ) {
       case Occupier.PEDESTRIAN:
         entity = new Pedestrian(cell, Priority.PEDESTRIAN, this.pedestrianVel, dir);
-        cell.setOccupation = Occupier.PEDESTRIAN;
         break;
       case Occupier.VEHICLE:
         entity = new Vehicle(cell, Priority.VEHICLE, this.vehicleVel, dir);
-        cell.setOccupation = Occupier.VEHICLE;
         break;
       case Occupier.SPECIAL_TRANSPORT:
         entity = new SpecialTransport(cell, Priority.SPECIAL, this.specialVel, dir);
-        cell.setOccupation = Occupier.SPECIAL_TRANSPORT;
         break;
       default:
         console.error(`Invalid data`);
