@@ -1,7 +1,7 @@
-import { Occupier } from '../../utils/constants/Occupier';
+import { notACover } from '../../utils/constants/cellTypes';
 import { SignForInteraction } from '../signs/SignForInteraction';
 import { SignWithStateProps } from '../signs/SignWithState';
-import OfCell from './OfCell';
+import { RoadUser } from '../trafficParticipants/RoadUser';
 import RoadMatrix from './RoadMatrix';
 
 export interface Cover {
@@ -10,10 +10,10 @@ export interface Cover {
   crossroad?: boolean;
 }
 
-export default class Cell implements OfCell {
+export default class Cell {
   protected sign: SignForInteraction | SignWithStateProps;
 
-  protected occupiedBy: Occupier;
+  protected user: RoadUser;
 
   protected cover: Cover;
 
@@ -29,10 +29,9 @@ export default class Cell implements OfCell {
 
   protected readonly roadMatrix: RoadMatrix;
 
-  constructor(roadMatrix: RoadMatrix, occ: Occupier, cover: Cover, x: number, y: number) {
+  constructor(roadMatrix: RoadMatrix, x: number, y: number) {
     this.roadMatrix = roadMatrix;
-    this.occupiedBy = occ;
-    this.cover = cover;
+    this.cover = notACover;
     this.xCoord = x;
     this.yCoord = y;
   }
@@ -45,12 +44,12 @@ export default class Cell implements OfCell {
     return this.sign;
   }
 
-  set setOccupation(flag: Occupier) {
-    this.occupiedBy = flag;
+  set setUser(user: RoadUser) {
+    this.user = user;
   }
 
-  get occupation(): Occupier | null {
-    return this.occupiedBy;
+  get getUser(): RoadUser {
+    return this.user;
   }
 
   set setCover(cover: Cover) {

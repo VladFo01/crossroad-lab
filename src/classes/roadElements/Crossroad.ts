@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 
+import { crossroadCover } from '../../utils/constants/cellTypes';
 import { Direction } from '../../utils/constants/Direction';
 import { SignToChangeDirection } from '../signs/SingToChangeDirection';
 import { Cover } from './Cell';
@@ -10,7 +11,7 @@ export default class Crossroad {
 
   protected roadMatrix: RoadMatrix;
 
-  constructor(roadMatrix: RoadMatrix, size: number, x: number, y: number, cover: Cover) {
+  constructor(roadMatrix: RoadMatrix, size: number, x: number, y: number) {
     this.size = size;
 
     let currentIter = 0;
@@ -22,13 +23,13 @@ export default class Crossroad {
         mainDirection = Direction.UP;
       }
 
-      roadMatrix.board[y][i].setCover = cover;
+      roadMatrix.board[y][i].setCover = crossroadCover;
       roadMatrix.board[y][i].setSign = new SignToChangeDirection({
         cell: roadMatrix.board[y][i],
         possibleDirections: [mainDirection, Direction.LEFT],
       });
 
-      roadMatrix.board[y + 1][i].setCover = cover;
+      roadMatrix.board[y + 1][i].setCover = crossroadCover;
       roadMatrix.board[y + 1][i].setSign = new SignToChangeDirection({
         cell: roadMatrix.board[y + 1][i],
         possibleDirections: [mainDirection, Direction.RIGHT],

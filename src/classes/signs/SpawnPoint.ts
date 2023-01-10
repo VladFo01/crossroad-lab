@@ -13,8 +13,8 @@ export class SpawnPoint extends SignWithState {
   private dir: Direction;
   private occupier: Occupier;
 
-  constructor({ cell, dir, cooldown, image, occupier }: SpawnPointProps) {
-    super({ cell, image, cooldown });
+  constructor({ cooldown, image, cell, dir, occupier }: SpawnPointProps) {
+    super({ cooldown: cooldown, image: image, cell: cell });
     this.dir = dir;
     this.occupier = occupier;
 
