@@ -1,5 +1,4 @@
 export enum Velocity {
     PEDESTRIAN = 1,
-    VEHICLE = 1,
-    SPECIAL = 1
+    VEHICLE = 1
 }

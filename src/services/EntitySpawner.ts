@@ -2,7 +2,6 @@
 import { RoadUser } from '../classes/trafficParticipants/RoadUser';
 import { Pedestrian } from '../classes/trafficParticipants/Pedestrian';
 import { Vehicle } from '../classes/trafficParticipants/Vehicle';
-import { SpecialTransport } from '../classes/trafficParticipants/SpecialTransport';
 import { Velocity } from '../utils/constants/Velocity';
 import { Direction } from '../utils/constants/Direction';
 import Cell from '../classes/roadElements/Cell';
@@ -12,12 +11,10 @@ import { Occupier } from '../utils/constants/Occupier';
 class EntitySpawner {
   private pedestrianVel: number;
   private vehicleVel: number;
-  private specialVel: number;
 
   constructor() {
     this.pedestrianVel = Velocity.PEDESTRIAN;
     this.vehicleVel = Velocity.VEHICLE;
-    this.specialVel = Velocity.SPECIAL;
   }
 
   public spawn(cell: Cell, occ: Occupier, dir: Direction): RoadUser {
@@ -30,9 +27,6 @@ class EntitySpawner {
         break;
       case Occupier.VEHICLE:
         entity = new Vehicle(cell, Priority.VEHICLE, this.vehicleVel, dir);
-        break;
-      case Occupier.SPECIAL_TRANSPORT:
-        entity = new SpecialTransport(cell, Priority.SPECIAL, this.specialVel, dir);
         break;
       default:
         console.error(`Invalid data`);
