@@ -19,16 +19,16 @@ export default class Connection {
         matrix.board[y][i].setCover = roadCover;
         matrix.board[y + 1][i].setCover = roadCover;
         
-        list1.pushBack(matrix.board[y][i]);
-        list2.pushBack(matrix.board[y + 1][i]);
+        list1.pushFront(matrix.board[y][i]);
+        list2.pushFront(matrix.board[y + 1][i]);
       }
     } else {
       for (let i = y; i < y + length; i++) {
         matrix.board[i][x].setCover = roadCover;
         matrix.board[i][x + 1].setCover = roadCover;
         
-        list1.pushBack(matrix.board[i][x]);
-        list2.pushBack(matrix.board[i][x + 1]);
+        list1.pushFront(matrix.board[i][x]);
+        list2.pushFront(matrix.board[i][x + 1]);
       }
     }
     matrix.getMovingLines().push(list1);

@@ -15,12 +15,6 @@ async function start() {
     matrix.makeOneIteration();
     await delay(500);
   }
-
-  console.log(`V -> Vehicle`);
-  console.log(`* -> Road`);
-  console.log(`C -> Crossroad`);
-  console.log(`- -> Sidewalk`);
-  console.log(`= -> Crosswalk\n\n`);
 }
 
 function testList() {
@@ -30,10 +24,10 @@ function testList() {
 
   const notACover = { canDrive: false, canWalk: false };
 
-  linkedList.pushBack(new Cell(this, null, 0, 0));
-  linkedList.pushBack(new Cell(this, null, 1, 1));
-  linkedList.pushFront(new Cell(this, null, 2, 2));
-  linkedList.pushFront(new Cell(this, null, 3, 3)); 
+  linkedList.pushBack(new Cell(this, 0, 0));
+  linkedList.pushBack(new Cell(this, 1, 1));
+  linkedList.pushFront(new Cell(this, 2, 2));
+  linkedList.pushFront(new Cell(this, 3, 3)); 
 
   console.log(linkedList.traverse()); 
 }

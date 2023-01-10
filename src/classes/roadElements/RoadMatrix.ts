@@ -5,7 +5,6 @@ import Cell from './Cell';
 import { conDirection } from '../../utils/constants/conDirection';
 import Connection from './Connection';
 import Crossroad from './Crossroad';
-import RoundAbout from './RoundAbout';
 import { SpawnPoint } from '../signs/SpawnPoint';
 import { Occupier } from '../../utils/constants/Occupier';
 import Sidewalk from './Sidewalk';
@@ -27,18 +26,14 @@ export default class RoadMatrix {
   private spawnpoints: SpawnPoint[];
   private sidewalks: Sidewalk[];
   private crossroads: Crossroad[];
-  private crosswalks: Connection[];
-  private roundAbouts: RoundAbout[];
 
-  protected constructor(size: number) {
+  private constructor(size: number) {
     this.size = size;
     this.matrix = [];
     this.movingLines = [];
     this.highway = [];
     this.crossroads = [];
     this.sidewalks = [];
-    this.crosswalks = [];
-    this.roundAbouts = [];
     this.spawnpoints = [];
 
     this.setMatrixCover();
@@ -49,7 +44,7 @@ export default class RoadMatrix {
     for (let i = 0; i < this.size; i++) {
       this.matrix.push([]);
       for (let j = 0; j < this.size; j++) {
-        this.matrix[i][j] = new Cell(this, null, i, j);
+        this.matrix[i][j] = new Cell(this, i, j);
       }
     }
 
@@ -157,6 +152,12 @@ export default class RoadMatrix {
     }
     process.stdout.write('\n');
     console.log(`\n`);
+
+    console.log(`V -> Vehicle`);
+    console.log(`* -> Road`);
+    console.log(`C -> Crossroad`);
+    console.log(`- -> Sidewalk`);
+    console.log(`= -> Crosswalk\n\n`);
   }
 
   public makeOneIteration(): void {

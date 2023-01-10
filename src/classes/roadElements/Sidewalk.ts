@@ -3,11 +3,10 @@
 import LinkedList from '../../services/LinkedList';
 import { crosswalkCover, sidewalkCover } from '../../utils/constants/cellTypes';
 import { conDirection } from '../../utils/constants/conDirection';
-import Cell, { Cover } from './Cell';
+import Cell from './Cell';
 import RoadMatrix from './RoadMatrix';
 
 export default class Sidewalk {
-  length: number;
 
   constructor(
     matrix: RoadMatrix,
@@ -17,6 +16,7 @@ export default class Sidewalk {
     length: number
   ) {
     let list = new LinkedList<Cell>();
+    
     if (direction === conDirection.Horizontal) {
       for (let i = x; i < x + length; i++) {
         if (matrix.board[y][i].getCover.canDrive) matrix.board[y][i].setCover = crosswalkCover;
@@ -30,6 +30,8 @@ export default class Sidewalk {
         list.pushBack(matrix.board[i][x]);
       }
     }
+    
     matrix.getMovingLines().push(list);
   }
+
 }

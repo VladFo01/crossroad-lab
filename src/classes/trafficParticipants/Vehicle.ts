@@ -1,4 +1,3 @@
-import { Occupier } from '../../utils/constants/Occupier';
 import { SignForInteraction } from '../signs/SignForInteraction';
 import { RoadUser } from './RoadUser';
 
