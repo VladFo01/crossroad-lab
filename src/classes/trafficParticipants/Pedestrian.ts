@@ -19,7 +19,7 @@ export class Pedestrian extends RoadUser {
         let xNew: number;
         let yNew: number; // кінцеві координати
 
-        let previousDirection = this.direction;
+        let previousDirection: Direction = this.direction;
 
         //вибір направлення
         let Directions: boolean[] = [false, false, false, false];

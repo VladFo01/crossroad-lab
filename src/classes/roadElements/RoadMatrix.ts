@@ -223,7 +223,10 @@ export default class RoadMatrix {
             process.stdout.write('C ');
             break;
           case cover.crosswalkCover:
-            process.stdout.write('= ');
+            if(!this.matrix[i][j].getTrafficLights.canMoveCar){
+              process.stdout.write('\x1b[91m= \x1b[39m');
+            }
+            else process.stdout.write('= ');
             break;
           case cover.notACover:
             process.stdout.write('  ');
