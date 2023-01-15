@@ -27,9 +27,9 @@ function testList() {
   linkedList.pushBack(new Cell(this, 0, 0));
   linkedList.pushBack(new Cell(this, 1, 1));
   linkedList.pushFront(new Cell(this, 2, 2));
-  linkedList.pushFront(new Cell(this, 3, 3)); 
+  linkedList.pushFront(new Cell(this, 3, 3));
 
-  console.log(linkedList.traverse()); 
+  console.log(linkedList.traverse());
 }
 
 start();

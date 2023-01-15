@@ -13,7 +13,7 @@ import { RoadUser } from '../trafficParticipants/RoadUser';
 import { Direction } from '../../utils/constants/Direction';
 import { Vehicle } from '../trafficParticipants/Vehicle';
 import * as cover from '../../utils/constants/cellTypes';
-
+import { Pedestrian } from '../trafficParticipants/Pedestrian';
 
 export default class RoadMatrix {
   // eslint-disable-next-line no-use-before-define
@@ -72,17 +72,97 @@ export default class RoadMatrix {
     this.sidewalks.push(new Sidewalk(this, 0, 17, conDirection.Horizontal, 20));
 
     // setup spawnpoints
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 4500, cell: this.board[0][4], dir: Direction.DOWN, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 3000, cell: this.board[0][14], dir: Direction.DOWN, occupier: Occupier.VEHICLE}));
-    
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 6500, cell: this.board[19][5], dir: Direction.UP, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 5000, cell: this.board[19][15], dir: Direction.UP, occupier: Occupier.VEHICLE}));
-    
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 3500, cell: this.board[4][0], dir: Direction.RIGHT, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 4000, cell: this.board[16][0], dir: Direction.RIGHT, occupier: Occupier.VEHICLE}));
-    
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 5500, cell: this.board[3][19], dir: Direction.LEFT, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 6000, cell: this.board[15][19], dir: Direction.LEFT, occupier: Occupier.VEHICLE}));
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 4500,
+        cell: this.board[0][4],
+        dir: Direction.DOWN,
+        occupier: Occupier.VEHICLE,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3000,
+        cell: this.board[0][14],
+        dir: Direction.DOWN,
+        occupier: Occupier.VEHICLE,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6500,
+        cell: this.board[19][5],
+        dir: Direction.UP,
+        occupier: Occupier.VEHICLE,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 5000,
+        cell: this.board[19][15],
+        dir: Direction.UP,
+        occupier: Occupier.VEHICLE,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3500,
+        cell: this.board[4][0],
+        dir: Direction.RIGHT,
+        occupier: Occupier.VEHICLE,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 4000,
+        cell: this.board[16][0],
+        dir: Direction.RIGHT,
+        occupier: Occupier.VEHICLE,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 5500,
+        cell: this.board[3][19],
+        dir: Direction.LEFT,
+        occupier: Occupier.VEHICLE,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[15][19],
+        dir: Direction.LEFT,
+        occupier: Occupier.VEHICLE,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3500,
+        cell: this.board[0][13],
+        dir: Direction.DOWN,
+        occupier: Occupier.PEDESTRIAN
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[0][3],
+        dir: Direction.DOWN,
+        occupier: Occupier.PEDESTRIAN
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3500,
+        cell: this.board[17][0],
+        dir: Direction.RIGHT,
+        occupier: Occupier.PEDESTRIAN
+      })
+    );
   }
 
   public static createOnce(size: number): RoadMatrix {
@@ -127,6 +207,11 @@ export default class RoadMatrix {
           continue;
         }
 
+        if(this.matrix[i][j].getUser instanceof Pedestrian){
+          process.stdout.write('P ');
+          continue;
+        }
+
         switch (this.matrix[i][j].getCover) {
           case cover.roadCover:
             process.stdout.write('* ');
@@ -157,6 +242,7 @@ export default class RoadMatrix {
     console.log(`* -> Road`);
     console.log(`C -> Crossroad`);
     console.log(`- -> Sidewalk`);
+    console.log(`P -> Pedestrian`);
     console.log(`= -> Crosswalk\n\n`);
   }
 
