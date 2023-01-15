@@ -14,6 +14,7 @@ import { Direction } from '../../utils/constants/Direction';
 import { Vehicle } from '../trafficParticipants/Vehicle';
 import * as cover from '../../utils/constants/cellTypes';
 import { Pedestrian } from '../trafficParticipants/Pedestrian';
+import { trafficLightsCooldown } from '../../utils/constants/trafficLightsCooldown';
 
 export default class RoadMatrix {
   // eslint-disable-next-line no-use-before-define
@@ -26,6 +27,8 @@ export default class RoadMatrix {
   private spawnpoints: SpawnPoint[];
   private sidewalks: Sidewalk[];
   private crossroads: Crossroad[];
+
+  private toChangeTrafficLights: number = 0;
 
   private constructor(size: number) {
     this.size = size;
@@ -198,9 +201,14 @@ export default class RoadMatrix {
 
   public print(): void {
     // console.clear();
+
     for (let i = 0; i < this.size; i++) {
       for (let j = 0; j < this.size; j++) {
         // print element based on covering of the sell
+
+        if(this.matrix[i][j].getCover == cover.crosswalkCover && this.toChangeTrafficLights % 5 == 0){
+          this.matrix[i][j].getTrafficLights.changeState();
+        }
 
         if (this.matrix[i][j].getUser instanceof Vehicle) {
           process.stdout.write('V ');
@@ -250,6 +258,7 @@ export default class RoadMatrix {
   }
 
   public makeOneIteration(): void {
+    this.toChangeTrafficLights++;
     const lines = this.getMovingLines();
     const moved: RoadUser[] = [];
     lines.forEach((list) =>
