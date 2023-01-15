@@ -4,6 +4,7 @@ import { SignForInteraction } from '../signs/SignForInteraction';
 import { Vehicle } from './Vehicle';
 import { generateRandNumber } from '../../utils/helpers/generateRandNumber';
 import { Direction } from '../../utils/constants/Direction';
+import { maxChangeDirectionAmount } from '../../utils/constants/maxChangeDirectionAmount';
 
 export class Pedestrian extends RoadUser {
 
@@ -18,17 +19,16 @@ export class Pedestrian extends RoadUser {
         let xNew: number;
         let yNew: number; // кінцеві координати
 
+        let previousDirection = this.direction;
+
         //вибір направлення
-        let randX: number = generateRandNumber(0, 1);
-        let randY: number = generateRandNumber(0, 1);
         let Directions: boolean[] = [false, false, false, false];
         let possibleDirAmount: number = 0; 
         if(this.cell.getMatrix.getCell(xCurrent - 1, yCurrent) && this.cell.getMatrix.getCell(xCurrent - 1, yCurrent).getCover.canWalk) {Directions[0] = true; possibleDirAmount++;}
         if(this.cell.getMatrix.getCell(xCurrent, yCurrent - 1) && this.cell.getMatrix.getCell(xCurrent, yCurrent - 1).getCover.canWalk) {Directions[1] = true; possibleDirAmount++;}
         if(this.cell.getMatrix.getCell(xCurrent + 1, yCurrent) && this.cell.getMatrix.getCell(xCurrent + 1, yCurrent).getCover.canWalk) {Directions[2] = true; possibleDirAmount++;} 
         if(this.cell.getMatrix.getCell(xCurrent, yCurrent + 1) && this.cell.getMatrix.getCell(xCurrent, yCurrent + 1).getCover.canWalk) {Directions[3] = true; possibleDirAmount++;}
-        
-        
+
         let randDir: number = generateRandNumber(0, possibleDirAmount);
         switch(randDir){
           case 0:
@@ -54,8 +54,10 @@ export class Pedestrian extends RoadUser {
           default:
             break;  
         }
-
-
+        
+        if(this.changeDirectionAmount >= maxChangeDirectionAmount) this.direction = previousDirection;
+        if(this.direction != previousDirection) this.changeDirectionAmount++;
+        
         switch (
           this.direction // обчислення наступних координат
         ) {
