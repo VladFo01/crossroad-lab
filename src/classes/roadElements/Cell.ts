@@ -39,11 +39,11 @@ export default class Cell {
     this.yCoord = y;
   }
 
-  set setTrafficLights(trafficLights: TrafficLights){
+  set setTrafficLights(trafficLights: TrafficLights) {
     this.trafficLights = trafficLights;
   }
 
-  get getTrafficLights() : TrafficLights | null{
+  get getTrafficLights(): TrafficLights | null {
     return this.trafficLights;
   }
 

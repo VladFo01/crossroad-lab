@@ -13,20 +13,18 @@ export default class Sidewalk {
 
     if (direction === conDirection.Horizontal) {
       for (let i = x; i < x + length; i++) {
-        if (matrix.board[y][i].getCover.canDrive) { 
+        if (matrix.board[y][i].getCover.canDrive) {
           matrix.board[y][i].setCover = crosswalkCover;
-          matrix.board[y][i].setTrafficLights = new TrafficLights(false, 5000); 
-        }
-        else matrix.board[y][i].setCover = sidewalkCover;
+          matrix.board[y][i].setTrafficLights = new TrafficLights(false, 5000);
+        } else matrix.board[y][i].setCover = sidewalkCover;
         list.pushBack(matrix.board[y][i]);
       }
     } else {
       for (let i = y; i < y + length; i++) {
         if (matrix.board[i][x].getCover.canDrive) {
           matrix.board[i][x].setCover = crosswalkCover;
-          matrix.board[i][x].setTrafficLights = new TrafficLights(true, 5000); 
-        }
-        else matrix.board[i][x].setCover = sidewalkCover;
+          matrix.board[i][x].setTrafficLights = new TrafficLights(true, 5000);
+        } else matrix.board[i][x].setCover = sidewalkCover;
         list.pushBack(matrix.board[i][x]);
       }
     }

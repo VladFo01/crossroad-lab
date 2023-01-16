@@ -6,13 +6,12 @@ interface TrafficLightsProps extends SignWithStateProps {
   defaultCanMove: boolean;
 }
 
-export class TrafficLights  {
+export class TrafficLights {
   private allowMove: boolean;
   private cooldown: number;
   private timeOfNextChangeState: number;
 
   constructor(defaultCanMove: boolean, cooldown: number) {
-    
     // TODO: implement setting image to Cell
     // this.cell.image = this.image;
     this.allowMove = defaultCanMove;
