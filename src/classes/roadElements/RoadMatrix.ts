@@ -147,7 +147,7 @@ export default class RoadMatrix {
         cooldown: 3500,
         cell: this.board[0][13],
         dir: Direction.DOWN,
-        occupier: Occupier.PEDESTRIAN,
+        occupier: Occupier.PEDESTRIAN
       })
     );
     this.spawnpoints.push(
@@ -155,7 +155,7 @@ export default class RoadMatrix {
         cooldown: 6000,
         cell: this.board[0][3],
         dir: Direction.DOWN,
-        occupier: Occupier.PEDESTRIAN,
+        occupier: Occupier.PEDESTRIAN
       })
     );
     this.spawnpoints.push(
@@ -163,7 +163,23 @@ export default class RoadMatrix {
         cooldown: 3500,
         cell: this.board[17][0],
         dir: Direction.RIGHT,
-        occupier: Occupier.PEDESTRIAN,
+        occupier: Occupier.PEDESTRIAN
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3500,
+        cell: this.board[17][19],
+        dir: Direction.LEFT,
+        occupier: Occupier.PEDESTRIAN
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3500,
+        cell: this.board[14][19],
+        dir: Direction.LEFT,
+        occupier: Occupier.PEDESTRIAN
       })
     );
   }
@@ -206,10 +222,7 @@ export default class RoadMatrix {
       for (let j = 0; j < this.size; j++) {
         // print element based on covering of the sell
 
-        if (
-          this.matrix[i][j].getCover == cover.crosswalkCover &&
-          this.toChangeTrafficLights % trafficLightsCooldown == 0
-        ) {
+        if(this.matrix[i][j].getCover == cover.crosswalkCover && this.toChangeTrafficLights % trafficLightsCooldown == 0){
           this.matrix[i][j].getTrafficLights.changeState();
         }
 
@@ -218,7 +231,7 @@ export default class RoadMatrix {
           continue;
         }
 
-        if (this.matrix[i][j].getUser instanceof Pedestrian) {
+        if(this.matrix[i][j].getUser instanceof Pedestrian){
           process.stdout.write('P ');
           continue;
         }
@@ -234,9 +247,10 @@ export default class RoadMatrix {
             process.stdout.write('C ');
             break;
           case cover.crosswalkCover:
-            if (!this.matrix[i][j].getTrafficLights.canMoveCar) {
+            if(!this.matrix[i][j].getTrafficLights.canMoveCar){
               process.stdout.write('\x1b[91m= \x1b[39m');
-            } else process.stdout.write('= ');
+            }
+            else process.stdout.write('= ');
             break;
           case cover.notACover:
             process.stdout.write('  ');
