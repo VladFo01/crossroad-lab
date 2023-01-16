@@ -254,7 +254,8 @@ export default class RoadMatrix {
     console.log(`C -> Crossroad`);
     console.log(`- -> Sidewalk`);
     console.log(`P -> Pedestrian`);
-    console.log(`= -> Crosswalk\n\n`);
+    console.log(`= -> Crosswalk (allowed to be used by cars)`);
+    console.log(`\x1b[91m= \x1b[39m-> Crosswalk (allowed to be used by pedestrians)\n\n`);
   }
 
   public makeOneIteration(): void {
