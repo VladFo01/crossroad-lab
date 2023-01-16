@@ -206,7 +206,7 @@ export default class RoadMatrix {
       for (let j = 0; j < this.size; j++) {
         // print element based on covering of the sell
 
-        if(this.matrix[i][j].getCover == cover.crosswalkCover && this.toChangeTrafficLights % 5 == 0){
+        if(this.matrix[i][j].getCover == cover.crosswalkCover && this.toChangeTrafficLights % trafficLightsCooldown == 0){
           this.matrix[i][j].getTrafficLights.changeState();
         }
 

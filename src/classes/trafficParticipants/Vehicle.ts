@@ -50,6 +50,8 @@ export class Vehicle extends RoadUser {
 
     // якщо наступна клітинка зайнята
     if (nextCell.getUser) return false;
+
+    // якщо світлофор не дозволяє
     if (nextCell.getTrafficLights && !nextCell.getTrafficLights.canMoveCar) return false;
 
     this.cell.setUser = null; // звільнення старої клітинки

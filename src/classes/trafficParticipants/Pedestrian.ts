@@ -56,6 +56,10 @@ export class Pedestrian extends RoadUser {
         }
         
         if(this.changeDirectionAmount >= maxChangeDirectionAmount) this.direction = previousDirection;
+        if(this.direction == Direction.UP && previousDirection == Direction.DOWN) this.direction = previousDirection;
+        if(this.direction == Direction.DOWN && previousDirection == Direction.UP) this.direction = previousDirection;
+        if(this.direction == Direction.RIGHT && previousDirection == Direction.LEFT) this.direction = previousDirection;
+        if(this.direction == Direction.LEFT && previousDirection == Direction.RIGHT) this.direction = previousDirection;
         if(this.direction != previousDirection) this.changeDirectionAmount++;
         
         switch (
@@ -92,6 +96,9 @@ export class Pedestrian extends RoadUser {
     
         // якщо по ній не можна пройти
         if (!nextCell.getCover.canWalk) return false;
+
+        //якщо світлофор не дозволяє
+        if(nextCell.getTrafficLights && !nextCell.getTrafficLights.canMovePedestrian) return false;
     
         // якщо наступна клітинка зайнята автомобілем
         if (nextCell.getUser instanceof Vehicle) return false;

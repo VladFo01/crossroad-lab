@@ -15,7 +15,7 @@ export default class Sidewalk {
       for (let i = x; i < x + length; i++) {
         if (matrix.board[y][i].getCover.canDrive) { 
           matrix.board[y][i].setCover = crosswalkCover;
-          matrix.board[y][i].setTrafficLights = new TrafficLights(true, 5000); 
+          matrix.board[y][i].setTrafficLights = new TrafficLights(false, 5000); 
         }
         else matrix.board[y][i].setCover = sidewalkCover;
         list.pushBack(matrix.board[y][i]);
