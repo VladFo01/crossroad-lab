@@ -1,4 +1,5 @@
 import { SignForInteraction } from '../signs/SignForInteraction';
+import { Pedestrian } from './Pedestrian';
 import { RoadUser } from './RoadUser';
 
 export class Vehicle extends RoadUser {
@@ -53,6 +54,8 @@ export class Vehicle extends RoadUser {
 
     // якщо світлофор не дозволяє
     if (nextCell.getTrafficLights && !nextCell.getTrafficLights.canMoveCar) return false;
+
+    if(nextCell.getUser instanceof Pedestrian) return false;
 
     this.cell.setUser = null; // звільнення старої клітинки
 
