@@ -3,6 +3,8 @@
 import LinkedList from '../../services/LinkedList';
 import { crosswalkCover, sidewalkCover } from '../../utils/constants/cellTypes';
 import { conDirection } from '../../utils/constants/conDirection';
+import { Direction } from '../../utils/constants/Direction';
+import { SignToChangeDirection } from '../signs/SingToChangeDirection';
 import { TrafficLights } from '../signs/TrafficLights';
 import Cell from './Cell';
 import RoadMatrix from './RoadMatrix';
@@ -17,6 +19,12 @@ export default class Sidewalk {
           matrix.board[y][i].setCover = crosswalkCover;
           matrix.board[y][i].setTrafficLights = new TrafficLights(false, 5000);
         } else matrix.board[y][i].setCover = sidewalkCover;
+        if(matrix.board[y + 1][i].getCover.canWalk){
+          matrix.board[y][i].setSign = new SignToChangeDirection({
+            cell: matrix.board[y][i],
+            possibleDirections:[Direction.DOWN, Direction.UP, Direction.LEFT, Direction.RIGHT]
+          });
+        }
         list.pushBack(matrix.board[y][i]);
       }
     } else {
@@ -25,6 +33,12 @@ export default class Sidewalk {
           matrix.board[i][x].setCover = crosswalkCover;
           matrix.board[i][x].setTrafficLights = new TrafficLights(true, 5000);
         } else matrix.board[i][x].setCover = sidewalkCover;
+        if(matrix.board[i][x + 1].getCover.canWalk){
+          matrix.board[i][x].setSign = new SignToChangeDirection({
+            cell: matrix.board[i][x],
+            possibleDirections:[Direction.DOWN, Direction.UP, Direction.LEFT, Direction.RIGHT]
+          });
+        }
         list.pushBack(matrix.board[i][x]);
       }
     }

@@ -144,7 +144,7 @@ export default class RoadMatrix {
     );
     this.spawnpoints.push(
       new SpawnPoint({
-        cooldown: 3500,
+        cooldown: 6000,
         cell: this.board[0][13],
         dir: Direction.DOWN,
         occupier: Occupier.PEDESTRIAN
@@ -160,28 +160,13 @@ export default class RoadMatrix {
     );
     this.spawnpoints.push(
       new SpawnPoint({
-        cooldown: 3500,
+        cooldown: 6000,
         cell: this.board[17][0],
         dir: Direction.RIGHT,
         occupier: Occupier.PEDESTRIAN
       })
     );
-    this.spawnpoints.push(
-      new SpawnPoint({
-        cooldown: 3500,
-        cell: this.board[17][19],
-        dir: Direction.LEFT,
-        occupier: Occupier.PEDESTRIAN
-      })
-    );
-    this.spawnpoints.push(
-      new SpawnPoint({
-        cooldown: 3500,
-        cell: this.board[14][19],
-        dir: Direction.LEFT,
-        occupier: Occupier.PEDESTRIAN
-      })
-    );
+    
   }
 
   public static createOnce(size: number): RoadMatrix {
