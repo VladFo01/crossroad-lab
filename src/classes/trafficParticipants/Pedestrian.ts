@@ -5,6 +5,7 @@ import { Vehicle } from './Vehicle';
 import { generateRandNumber } from '../../utils/helpers/generateRandNumber';
 import { Direction } from '../../utils/constants/Direction';
 import { maxChangeDirectionAmount } from '../../utils/constants/maxChangeDirectionAmount';
+import { Cover } from '../roadElements/Cell';
 
 export class Pedestrian extends RoadUser {
   public move(): boolean | string {
@@ -125,7 +126,9 @@ export class Pedestrian extends RoadUser {
     if (!nextCell.getCover.canWalk) return false;
 
     //якщо світлофор не дозволяє
-    if (nextCell.getTrafficLights && !nextCell.getTrafficLights.canMovePedestrian) return false;
+    if (nextCell.getTrafficLights && !nextCell.getTrafficLights.canMovePedestrian) {
+      if(!this.cell.getCover.canDrive && nextCell.getCover.canDrive) return false;
+    }
 
     // якщо наступна клітинка зайнята автомобілем
     if (nextCell.getUser instanceof Vehicle) return false;
