@@ -6,14 +6,12 @@ import { conDirection } from '../../utils/constants/conDirection';
 import Connection from './Connection';
 import Crossroad from './Crossroad';
 import { SpawnPoint } from '../signs/SpawnPoint';
-import { Occupier } from '../../utils/constants/Occupier';
 import Sidewalk from './Sidewalk';
 import LinkedList from '../../services/LinkedList';
 import { RoadUser } from '../trafficParticipants/RoadUser';
 import { Direction } from '../../utils/constants/Direction';
 import { Vehicle } from '../trafficParticipants/Vehicle';
 import * as cover from '../../utils/constants/cellTypes';
-
 
 export default class RoadMatrix {
   // eslint-disable-next-line no-use-before-define
@@ -72,17 +70,73 @@ export default class RoadMatrix {
     this.sidewalks.push(new Sidewalk(this, 0, 17, conDirection.Horizontal, 20));
 
     // setup spawnpoints
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 4500, cell: this.board[0][4], dir: Direction.DOWN, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 3000, cell: this.board[0][14], dir: Direction.DOWN, occupier: Occupier.VEHICLE}));
-    
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 6500, cell: this.board[19][5], dir: Direction.UP, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 5000, cell: this.board[19][15], dir: Direction.UP, occupier: Occupier.VEHICLE}));
-    
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 3500, cell: this.board[4][0], dir: Direction.RIGHT, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 4000, cell: this.board[16][0], dir: Direction.RIGHT, occupier: Occupier.VEHICLE}));
-    
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 5500, cell: this.board[3][19], dir: Direction.LEFT, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 6000, cell: this.board[15][19], dir: Direction.LEFT, occupier: Occupier.VEHICLE}));
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 4500,
+        cell: this.board[0][4],
+        dir: Direction.DOWN,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3000,
+        cell: this.board[0][14],
+        dir: Direction.DOWN,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6500,
+        cell: this.board[19][5],
+        dir: Direction.UP,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 5000,
+        cell: this.board[19][15],
+        dir: Direction.UP,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3500,
+        cell: this.board[4][0],
+        dir: Direction.RIGHT,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 4000,
+        cell: this.board[16][0],
+        dir: Direction.RIGHT,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 5500,
+        cell: this.board[3][19],
+        dir: Direction.LEFT,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[15][19],
+        dir: Direction.LEFT,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
   }
 
   public static createOnce(size: number): RoadMatrix {

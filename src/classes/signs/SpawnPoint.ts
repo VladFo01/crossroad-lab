@@ -1,33 +1,32 @@
 import { Direction } from '../../utils/constants/Direction';
-import entitySpawner from '../../services/EntitySpawner';
+import entitySpawner, { EntitySpawnerProps } from '../../services/EntitySpawner';
 import { SignWithState, SignWithStateProps } from './SignWithState';
-import { Occupier } from '../../utils/constants/Occupier';
 import { delay } from '../../utils/helpers/delay';
 import Cell from '../roadElements/Cell';
 
-interface SpawnPointProps extends SignWithStateProps {
-  cell: Cell;
-  dir: Direction;
-  occupier: Occupier;
-}
+interface SpawnPointProps extends SignWithStateProps, EntitySpawnerProps {}
 
 export class SpawnPoint extends SignWithState {
   private cell: Cell;
   private dir: Direction;
-  private occupier: Occupier;
+  private roadUserCreator: EntitySpawnerProps['roadUserCreator'];
 
-  constructor({ cooldown, image, cell, dir, occupier }: SpawnPointProps) {
+  constructor({ cooldown, image, cell, dir, roadUserCreator }: SpawnPointProps) {
     super({ cooldown, image });
     this.cell = cell;
     this.dir = dir;
-    this.occupier = occupier;
+    this.roadUserCreator = roadUserCreator;
 
     this.spawnRoadUser();
   }
 
   public async spawnRoadUser() {
     if (this.canChangeState()) {
-      entitySpawner.spawn(this.cell, this.occupier, this.dir);
+      entitySpawner.spawn({
+        cell: this.cell,
+        roadUserCreator: this.roadUserCreator,
+        dir: this.dir,
+      });
     }
 
     await delay(1000);
