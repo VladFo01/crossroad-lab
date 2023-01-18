@@ -1,60 +1,24 @@
-import { RoadUser } from './RoadUser';
+/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable class-methods-use-this */
+import { Priority } from '../../utils/constants/Priority';
+import { Velocity } from '../../utils/constants/Velocity';
+import { RoadUser, RoadUserProps } from './RoadUser';
+
+interface VehicleProps extends Pick<RoadUserProps, 'cell' | 'dir'> {}
 
 export class Vehicle extends RoadUser {
-  public move(): boolean | string {
-    const xCurrent = this.cell.xCoordinate; // поточні координати
-    const yCurrent = this.cell.yCoordinate;
+  constructor({ cell, dir }: VehicleProps) {
+    super({
+      cell,
+      dir,
+      priority: Priority.VEHICLE,
+      vel: Velocity.VEHICLE,
+    });
 
-    if (this.cell.getSign) {
-      this.cell.getSign.callback(this);
-    }
+    this.allowedCover = 'canDrive';
+  }
 
-    let xNew: number;
-    let yNew: number; // кінцеві координати
-
-    switch (
-      this.direction // обчислення наступних координат
-    ) {
-      case 'Up':
-        xNew = xCurrent;
-        yNew = yCurrent - this.currentVelocity;
-        break;
-      case 'Down':
-        xNew = xCurrent;
-        yNew = yCurrent + this.currentVelocity;
-        break;
-      case 'Left':
-        xNew = xCurrent - this.currentVelocity;
-        yNew = yCurrent;
-        break;
-      case 'Right':
-        xNew = xCurrent + this.currentVelocity;
-        yNew = yCurrent;
-        break;
-      default:
-        console.log(`Cannot recognize direction ${this.direction}`);
-        return false;
-    }
-
-    const nextCell = this.cell.getMatrix.getCell(xNew, yNew);
-
-    // якщо вийшли за краї матриці
-    if (!nextCell) {
-      this.cell.setUser = null; // звільнення старої клітинки
-      return 'out of bounds';
-    }
-
-    // якщо по ній не можна проїхати
-    if (!nextCell.getCover.canDrive) return false;
-
-    // якщо наступна клітинка зайнята
-    if (nextCell.getUser) return false;
-
-    this.cell.setUser = null; // звільнення старої клітинки
-
-    this.cell = nextCell;
-    this.cell.setUser = this;
-
-    return true;
+  public static override createRoadUser({ cell, dir }: VehicleProps): Vehicle {
+    return new Vehicle({ dir, cell });
   }
 }

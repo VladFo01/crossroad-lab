@@ -1,7 +1,5 @@
 /* eslint-disable no-await-in-loop */
-import Cell from './classes/roadElements/Cell';
 import RoadMatrix from './classes/roadElements/RoadMatrix';
-import LinkedList from './services/LinkedList';
 import { delay } from './utils/helpers/delay';
 
 async function start() {
@@ -17,21 +15,4 @@ async function start() {
   }
 }
 
-function testList() {
-  const linkedList = new LinkedList<Cell>();
-
-  console.log(linkedList.traverse()); // [];
-
-  const notACover = { canDrive: false, canWalk: false };
-
-  linkedList.pushBack(new Cell(this, 0, 0));
-  linkedList.pushBack(new Cell(this, 1, 1));
-  linkedList.pushFront(new Cell(this, 2, 2));
-  linkedList.pushFront(new Cell(this, 3, 3)); 
-
-  console.log(linkedList.traverse()); 
-}
-
 start();
-
-// testList();

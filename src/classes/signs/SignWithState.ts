@@ -26,7 +26,7 @@ export class SignWithState extends Sign {
     return false;
   }
 
-  protected updateTimeOfNextChangeState() {
+  private updateTimeOfNextChangeState() {
     this.timeOfNextChangeState = Date.now() + this.cooldown;
   }
 }

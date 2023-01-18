@@ -6,14 +6,14 @@ import { conDirection } from '../../utils/constants/conDirection';
 import Connection from './Connection';
 import Crossroad from './Crossroad';
 import { SpawnPoint } from '../signs/SpawnPoint';
-import { Occupier } from '../../utils/constants/Occupier';
 import Sidewalk from './Sidewalk';
 import LinkedList from '../../services/LinkedList';
 import { RoadUser } from '../trafficParticipants/RoadUser';
 import { Direction } from '../../utils/constants/Direction';
 import { Vehicle } from '../trafficParticipants/Vehicle';
 import * as cover from '../../utils/constants/cellTypes';
-
+import { Pedestrian } from '../trafficParticipants/Pedestrian';
+import { TrafficLights } from '../signs/TrafficLights';
 
 export default class RoadMatrix {
   // eslint-disable-next-line no-use-before-define
@@ -72,17 +72,98 @@ export default class RoadMatrix {
     this.sidewalks.push(new Sidewalk(this, 0, 17, conDirection.Horizontal, 20));
 
     // setup spawnpoints
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 4500, cell: this.board[0][4], dir: Direction.DOWN, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 3000, cell: this.board[0][14], dir: Direction.DOWN, occupier: Occupier.VEHICLE}));
-    
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 6500, cell: this.board[19][5], dir: Direction.UP, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 5000, cell: this.board[19][15], dir: Direction.UP, occupier: Occupier.VEHICLE}));
-    
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 3500, cell: this.board[4][0], dir: Direction.RIGHT, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 4000, cell: this.board[16][0], dir: Direction.RIGHT, occupier: Occupier.VEHICLE}));
-    
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 5500, cell: this.board[3][19], dir: Direction.LEFT, occupier: Occupier.VEHICLE}));
-    this.spawnpoints.push(new SpawnPoint({ cooldown: 6000, cell: this.board[15][19], dir: Direction.LEFT, occupier: Occupier.VEHICLE}));
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 4500,
+        cell: this.board[0][4],
+        dir: Direction.DOWN,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3000,
+        cell: this.board[0][14],
+        dir: Direction.DOWN,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6500,
+        cell: this.board[19][5],
+        dir: Direction.UP,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 5000,
+        cell: this.board[19][15],
+        dir: Direction.UP,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 3500,
+        cell: this.board[4][0],
+        dir: Direction.RIGHT,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 4000,
+        cell: this.board[16][0],
+        dir: Direction.RIGHT,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 5500,
+        cell: this.board[3][19],
+        dir: Direction.LEFT,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[15][19],
+        dir: Direction.LEFT,
+        roadUserCreator: Vehicle.createRoadUser,
+      })
+    );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[0][13],
+        dir: Direction.DOWN,
+        roadUserCreator: Pedestrian.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[0][3],
+        dir: Direction.DOWN,
+        roadUserCreator: Pedestrian.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[17][0],
+        dir: Direction.RIGHT,
+        roadUserCreator: Pedestrian.createRoadUser,
+      })
+    );
   }
 
   public static createOnce(size: number): RoadMatrix {
@@ -118,12 +199,18 @@ export default class RoadMatrix {
 
   public print(): void {
     // console.clear();
+
     for (let i = 0; i < this.size; i++) {
       for (let j = 0; j < this.size; j++) {
-        // print element based on covering of the sell
+        // print element based on covering of the cell
 
         if (this.matrix[i][j].getUser instanceof Vehicle) {
           process.stdout.write('V ');
+          continue;
+        }
+
+        if (this.matrix[i][j].getUser instanceof Pedestrian) {
+          process.stdout.write('P ');
           continue;
         }
 
@@ -138,7 +225,14 @@ export default class RoadMatrix {
             process.stdout.write('C ');
             break;
           case cover.crosswalkCover:
-            process.stdout.write('= ');
+            if (
+              this.matrix[i][j].getSign instanceof TrafficLights &&
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              !this.matrix[i][j].getSign.canMoveCar
+            ) {
+              process.stdout.write('\x1b[91m= \x1b[39m');
+            } else process.stdout.write('\x1b[32m= \x1b[39m');
             break;
           case cover.notACover:
             process.stdout.write('  ');
@@ -157,7 +251,9 @@ export default class RoadMatrix {
     console.log(`* -> Road`);
     console.log(`C -> Crossroad`);
     console.log(`- -> Sidewalk`);
-    console.log(`= -> Crosswalk\n\n`);
+    console.log(`P -> Pedestrian`);
+    console.log(`\x1b[32m= -> Crosswalk (allowed to be used by cars)\x1b[39m`);
+    console.log(`\x1b[91m= -> Crosswalk (allowed to be used by pedestrians)\x1b[39m\n\n`);
   }
 
   public makeOneIteration(): void {

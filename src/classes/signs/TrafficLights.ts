@@ -1,5 +1,12 @@
-// import { trafficLightsCooldown } from '../../utils/constants/trafficLightsCooldown';
+/* eslint-disable no-unused-expressions */
+import { delay } from '../../utils/helpers/delay';
+import { Pedestrian } from '../trafficParticipants/Pedestrian';
+import { RoadUser } from '../trafficParticipants/RoadUser';
+import { Vehicle } from '../trafficParticipants/Vehicle';
 import { SignWithState, SignWithStateProps } from './SignWithState';
+import { PedestrianStrategy } from './trafficLightsStrategies/PedestrianStrategy';
+import { TrafficLightsStrategy } from './trafficLightsStrategies/TrafficLightsStrategy';
+import { VehicleStrategy } from './trafficLightsStrategies/VehicleStrategy';
 
 interface TrafficLightsProps extends SignWithStateProps {
   defaultCanMove: boolean;
@@ -8,20 +15,38 @@ interface TrafficLightsProps extends SignWithStateProps {
 export class TrafficLights extends SignWithState {
   private allowMove: boolean;
 
-  constructor({ image, defaultCanMove, cooldown }: TrafficLightsProps) {
-    super({ image, cooldown });
+  constructor({ cooldown, image, defaultCanMove }: TrafficLightsProps) {
+    super({ cooldown, image });
     this.allowMove = defaultCanMove;
+    this.isForNextCell = true;
+
+    this.changeState();
   }
 
-  public changeState() {
-    this.allowMove = !this.allowMove;
+  protected override callbackFunction(roadUser: RoadUser): RoadUser {
+    let strategy: TrafficLightsStrategy;
+
+    if (roadUser instanceof Pedestrian) {
+      strategy = new PedestrianStrategy(this.allowMove);
+    } else if (roadUser instanceof Vehicle) {
+      strategy = new VehicleStrategy(this.allowMove);
+    }
+
+    strategy.processRoadUser(roadUser);
+
+    return roadUser;
   }
 
-  get canMoveCar() {
+  public async changeState() {
+    if (this.canChangeState()) {
+      this.allowMove = !this.allowMove;
+    }
+
+    await delay(1000);
+    this.changeState();
+  }
+
+  get canMoveCar(): boolean {
     return this.allowMove;
-  }
-
-  get canMovePedestrian() {
-    return !this.allowMove;
   }
 }
