@@ -7,16 +7,9 @@ import Cell from './Cell';
 import RoadMatrix from './RoadMatrix';
 
 export default class Sidewalk {
+  constructor(matrix: RoadMatrix, x: number, y: number, direction: conDirection, length: number) {
+    const list = new LinkedList<Cell>();
 
-  constructor(
-    matrix: RoadMatrix,
-    x: number,
-    y: number,
-    direction: conDirection,
-    length: number
-  ) {
-    let list = new LinkedList<Cell>();
-    
     if (direction === conDirection.Horizontal) {
       for (let i = x; i < x + length; i++) {
         if (matrix.board[y][i].getCover.canDrive) matrix.board[y][i].setCover = crosswalkCover;
@@ -30,8 +23,7 @@ export default class Sidewalk {
         list.pushBack(matrix.board[i][x]);
       }
     }
-    
+
     matrix.getMovingLines().push(list);
   }
-
 }

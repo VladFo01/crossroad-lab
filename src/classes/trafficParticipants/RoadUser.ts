@@ -55,19 +55,15 @@ export class RoadUser {
     this.changeDirectionAmount++;
   }
 
-  go(): void {
+  public go(): void {
     if (this.currentVelocity === 0) {
       this.currentVelocity = this.maxVelocity;
-    } else {
-      console.log('Is already moving!');
     }
   }
 
-  stop(): void {
+  public stop(): void {
     if (this.currentVelocity !== 0) {
       this.currentVelocity = 0;
-    } else {
-      console.log('Has already stopped!');
     }
   }
 

@@ -1,6 +1,5 @@
 import { notACover } from '../../utils/constants/cellTypes';
-import { SignForInteraction } from '../signs/SignForInteraction';
-import { SignWithState } from '../signs/SignWithState';
+import { Sign } from '../signs/Sign';
 import { RoadUser } from '../trafficParticipants/RoadUser';
 import RoadMatrix from './RoadMatrix';
 
@@ -11,7 +10,7 @@ export interface Cover {
 }
 
 export default class Cell {
-  protected sign: SignForInteraction | SignWithState;
+  protected sign: Sign;
 
   protected user: RoadUser;
 
@@ -36,11 +35,11 @@ export default class Cell {
     this.yCoord = y;
   }
 
-  set setSign(sign: SignForInteraction | SignWithState) {
+  set setSign(sign: Sign) {
     this.sign = sign;
   }
 
-  get getSign(): SignForInteraction | SignWithState | null {
+  get getSign(): Sign | null {
     return this.sign;
   }
 

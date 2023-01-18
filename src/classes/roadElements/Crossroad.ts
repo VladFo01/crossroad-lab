@@ -3,7 +3,6 @@
 import { crossroadCover } from '../../utils/constants/cellTypes';
 import { Direction } from '../../utils/constants/Direction';
 import { SignToChangeDirection } from '../signs/SingToChangeDirection';
-import { Cover } from './Cell';
 import RoadMatrix from './RoadMatrix';
 
 export default class Crossroad {
@@ -25,13 +24,11 @@ export default class Crossroad {
 
       roadMatrix.board[y][i].setCover = crossroadCover;
       roadMatrix.board[y][i].setSign = new SignToChangeDirection({
-        cell: roadMatrix.board[y][i],
         possibleDirections: [mainDirection, Direction.LEFT],
       });
 
       roadMatrix.board[y + 1][i].setCover = crossroadCover;
       roadMatrix.board[y + 1][i].setSign = new SignToChangeDirection({
-        cell: roadMatrix.board[y + 1][i],
         possibleDirections: [mainDirection, Direction.RIGHT],
       });
     }

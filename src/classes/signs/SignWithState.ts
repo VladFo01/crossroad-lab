@@ -6,10 +6,10 @@ export interface SignWithStateProps extends SignProps {
 
 export class SignWithState extends Sign {
   protected cooldown: number;
-  protected timeOfNextChangeState: number;
+  private timeOfNextChangeState: number;
 
-  constructor({ cooldown, image, cell }: SignWithStateProps) {
-    super({ cell: cell, image: image });
+  constructor({ cooldown, image }: SignWithStateProps) {
+    super({ image });
     this.cooldown = cooldown;
 
     this.updateTimeOfNextChangeState();

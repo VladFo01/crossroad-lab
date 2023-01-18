@@ -3,17 +3,17 @@ import { Direction } from '../../utils/constants/Direction';
 import { maxChangeDirectionAmount } from '../../utils/constants/maxChangeDirectionAmount';
 import { generateRandNumber } from '../../utils/helpers/generateRandNumber';
 import { RoadUser } from '../trafficParticipants/RoadUser';
-import { SignForInteraction, SignForInteractionProps } from './SignForInteraction';
+import { Sign, SignProps } from './Sign';
 
-interface SignToChangeDirectionProps extends SignForInteractionProps {
+interface SignToChangeDirectionProps extends SignProps {
   possibleDirections: Direction[];
 }
 
-export class SignToChangeDirection extends SignForInteraction {
+export class SignToChangeDirection extends Sign {
   private readonly possibleDirections: Direction[];
 
-  constructor({ cell, isFor, image, possibleDirections }: SignToChangeDirectionProps) {
-    super({ cell, image, isFor });
+  constructor({ image, possibleDirections }: SignToChangeDirectionProps) {
+    super({ image });
 
     this.possibleDirections = possibleDirections;
   }

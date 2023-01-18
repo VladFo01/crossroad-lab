@@ -3,8 +3,10 @@ import entitySpawner from '../../services/EntitySpawner';
 import { SignWithState, SignWithStateProps } from './SignWithState';
 import { Occupier } from '../../utils/constants/Occupier';
 import { delay } from '../../utils/helpers/delay';
+import Cell from '../roadElements/Cell';
 
 interface SpawnPointProps extends SignWithStateProps {
+  cell: Cell;
   dir: Direction;
   occupier: Occupier;
 }
@@ -14,7 +16,8 @@ export class SpawnPoint extends SignWithState {
   private occupier: Occupier;
 
   constructor({ cooldown, image, cell, dir, occupier }: SpawnPointProps) {
-    super({ cooldown: cooldown, image: image, cell: cell });
+    super({ cooldown, image });
+    this.cell = cell;
     this.dir = dir;
     this.occupier = occupier;
 

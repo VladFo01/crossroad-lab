@@ -1,3 +1,6 @@
+/* eslint-disable no-useless-constructor */
+/* eslint-disable no-use-before-define */
+/* eslint-disable max-classes-per-file */
 class Node<T> {
   public next: Node<T> | null = null;
   public prev: Node<T> | null = null;
