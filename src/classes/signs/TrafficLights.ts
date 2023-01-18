@@ -5,6 +5,9 @@ import { Pedestrian } from '../trafficParticipants/Pedestrian';
 import { RoadUser } from '../trafficParticipants/RoadUser';
 import { Vehicle } from '../trafficParticipants/Vehicle';
 import { SignWithState, SignWithStateProps } from './SignWithState';
+import { PedestrianStrategy } from './trafficLightsStrategies/PedestrianStrategy';
+import { TrafficLightsStrategy } from './trafficLightsStrategies/TrafficLightsStrategy';
+import { VehicleStrategy } from './trafficLightsStrategies/VahicleStrategy';
 
 interface TrafficLightsProps extends SignWithStateProps {
   defaultCanMove: boolean;
@@ -21,11 +24,15 @@ export class TrafficLights extends SignWithState {
   }
 
   public override callback(roadUser: RoadUser): RoadUser {
+    let strategy: TrafficLightsStrategy;
+
     if (roadUser instanceof Pedestrian) {
-      this.allowMove ? roadUser.stop() : roadUser.go();
+      strategy = new PedestrianStrategy(this.allowMove);
     } else if (roadUser instanceof Vehicle) {
-      this.allowMove ? roadUser.go() : roadUser.stop();
+      strategy = new VehicleStrategy(this.allowMove);
     }
+
+    strategy.processRoadUser(roadUser);
 
     return roadUser;
   }
