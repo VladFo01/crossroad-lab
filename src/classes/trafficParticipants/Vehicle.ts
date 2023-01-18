@@ -7,8 +7,6 @@ import { RoadUser, RoadUserProps } from './RoadUser';
 interface VehicleProps extends Pick<RoadUserProps, 'cell' | 'dir'> {}
 
 export class Vehicle extends RoadUser {
-  private readonly instance: RoadUser;
-
   constructor({ cell, dir }: VehicleProps) {
     super({
       cell,

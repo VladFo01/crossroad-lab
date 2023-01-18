@@ -84,12 +84,36 @@ export class RoadUser {
   }
 
   public move(): boolean | string {
+    let nextCell = this.calculateNewCell();
+
+    if (nextCell.getSign) {
+      nextCell.getSign.callback(this);
+      nextCell = this.calculateNewCell();
+    }
+
+    // якщо вийшли за краї матриці
+    if (!nextCell) {
+      this.cell.setUser = null; // звільнення старої клітинки
+      return 'out of bounds';
+    }
+
+    // якщо по ній не можна проїхати
+    if (!nextCell.getCover.canDrive) return false;
+
+    // якщо наступна клітинка зайнята
+    if (nextCell.getUser) return false;
+
+    this.cell.setUser = null; // звільнення старої клітинки
+
+    this.cell = nextCell;
+    this.cell.setUser = this;
+
+    return true;
+  }
+
+  private calculateNewCell(): Cell | null {
     const xCurrent = this.cell.xCoordinate; // поточні координати
     const yCurrent = this.cell.yCoordinate;
-
-    if (this.cell.getSign) {
-      this.cell.getSign.callback(this);
-    }
 
     let xNew: number;
     let yNew: number; // кінцеві координати
@@ -115,28 +139,9 @@ export class RoadUser {
         break;
       default:
         console.log(`Cannot recognize direction ${this.direction}`);
-        return false;
+        return null;
     }
 
-    const nextCell = this.cell.getMatrix.getCell(xNew, yNew);
-
-    // якщо вийшли за краї матриці
-    if (!nextCell) {
-      this.cell.setUser = null; // звільнення старої клітинки
-      return 'out of bounds';
-    }
-
-    // якщо по ній не можна проїхати
-    if (!nextCell.getCover.canDrive) return false;
-
-    // якщо наступна клітинка зайнята
-    if (nextCell.getUser) return false;
-
-    this.cell.setUser = null; // звільнення старої клітинки
-
-    this.cell = nextCell;
-    this.cell.setUser = this;
-
-    return true;
+    return this.cell.getMatrix.getCell(xNew, yNew);
   }
 }

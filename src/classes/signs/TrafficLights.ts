@@ -16,8 +16,8 @@ interface TrafficLightsProps extends SignWithStateProps {
 export class TrafficLights extends SignWithState {
   private allowMove: boolean;
 
-  constructor({ image, defaultCanMove, cooldown }: TrafficLightsProps) {
-    super({ image, cooldown });
+  constructor({ cooldown, image, defaultCanMove }: TrafficLightsProps) {
+    super({ cooldown, image });
     this.allowMove = defaultCanMove;
 
     this.changeState();
