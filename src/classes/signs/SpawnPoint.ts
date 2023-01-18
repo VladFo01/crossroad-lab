@@ -12,6 +12,7 @@ interface SpawnPointProps extends SignWithStateProps {
 }
 
 export class SpawnPoint extends SignWithState {
+  private cell: Cell;
   private dir: Direction;
   private occupier: Occupier;
 

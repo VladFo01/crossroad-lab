@@ -1,4 +1,9 @@
+/* eslint-disable no-unused-expressions */
 // import { trafficLightsCooldown } from '../../utils/constants/trafficLightsCooldown';
+import { delay } from '../../utils/helpers/delay';
+import { Pedestrian } from '../trafficParticipants/Pedestrian';
+import { RoadUser } from '../trafficParticipants/RoadUser';
+import { Vehicle } from '../trafficParticipants/Vehicle';
 import { SignWithState, SignWithStateProps } from './SignWithState';
 
 interface TrafficLightsProps extends SignWithStateProps {
@@ -11,17 +16,26 @@ export class TrafficLights extends SignWithState {
   constructor({ image, defaultCanMove, cooldown }: TrafficLightsProps) {
     super({ image, cooldown });
     this.allowMove = defaultCanMove;
+
+    this.changeState();
   }
 
-  public changeState() {
-    this.allowMove = !this.allowMove;
+  public override callback(roadUser: RoadUser): RoadUser {
+    if (roadUser instanceof Pedestrian) {
+      this.allowMove ? roadUser.stop() : roadUser.go();
+    } else if (roadUser instanceof Vehicle) {
+      this.allowMove ? roadUser.go() : roadUser.stop();
+    }
+
+    return roadUser;
   }
 
-  get canMoveCar() {
-    return this.allowMove;
-  }
+  public async changeState() {
+    if (this.canChangeState()) {
+      this.allowMove = !this.allowMove;
+    }
 
-  get canMovePedestrian() {
-    return !this.allowMove;
+    await delay(1000);
+    this.changeState();
   }
 }

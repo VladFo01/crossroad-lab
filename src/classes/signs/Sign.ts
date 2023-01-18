@@ -1,4 +1,3 @@
-import Cell from '../roadElements/Cell';
 import { RoadUser } from '../trafficParticipants/RoadUser';
 
 export interface SignProps {
@@ -6,7 +5,6 @@ export interface SignProps {
 }
 
 export class Sign {
-  protected cell: Cell;
   protected image?: string;
 
   constructor({ image }: SignProps) {
