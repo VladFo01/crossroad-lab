@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { Direction } from '../../utils/constants/Direction';
 import { Priority } from '../../utils/constants/Priority';
 import { Velocity } from '../../utils/constants/Velocity';
+import { getOppositeDirection } from '../../utils/helpers/getOppositeDirection';
 import Cell from '../roadElements/Cell';
 import { RoadUser, RoadUserProps } from './RoadUser';
 
@@ -25,23 +25,10 @@ export class Pedestrian extends RoadUser {
     return new Pedestrian({ dir, cell });
   }
 
-  private static getOppositeDirection(direction: Direction) {
-    switch (direction) {
-      case Direction.DOWN:
-        return Direction.UP;
-      case Direction.UP:
-        return Direction.DOWN;
-      case Direction.LEFT:
-        return Direction.RIGHT;
-      default:
-        return Direction.LEFT;
-    }
-  }
-
   protected override nextCellBusyHandler(nextCell: Cell): boolean {
     if (nextCell.getUser) {
       if (nextCell.getUser instanceof Pedestrian) {
-        this.direction = Pedestrian.getOppositeDirection(this.direction);
+        this.direction = getOppositeDirection(this.direction);
         nextCell = this.calculateNextCell(this.currentVelocity);
         return true;
       }
