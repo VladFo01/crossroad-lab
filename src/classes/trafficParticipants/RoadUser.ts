@@ -93,15 +93,13 @@ export class RoadUser {
   }
 
   public move(): boolean | string {
-    let resolvedCallback = false;
-
     if (this.cell.getSign) {
-      resolvedCallback = this.cell.getSign.callback(this, false);
+      this.cell.getSign.callback(this, false);
     }
 
     let nextCell = this.calculateNextCell(this.maxVelocity);
 
-    if (!resolvedCallback && nextCell?.getSign) {
+    if (nextCell?.getSign) {
       nextCell.getSign.callback(this, true);
     }
 
