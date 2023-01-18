@@ -1,4 +1,4 @@
 export enum Occupier {
   PEDESTRIAN,
-  VEHICLE
+  VEHICLE,
 }

@@ -19,7 +19,7 @@ export class SignToChangeDirection extends Sign {
   }
 
   private getNextDirection(): Direction {
-    const nextDirectionIndex = generateRandNumber(0, 1);
+    const nextDirectionIndex = generateRandNumber(0, this.possibleDirections.length - 1);
     return this.possibleDirections[nextDirectionIndex];
   }
 

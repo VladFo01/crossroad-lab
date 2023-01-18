@@ -2,6 +2,7 @@ import { notACover } from '../../utils/constants/cellTypes';
 import { Sign } from '../signs/Sign';
 import { RoadUser } from '../trafficParticipants/RoadUser';
 import RoadMatrix from './RoadMatrix';
+import { TrafficLights } from '../signs/TrafficLights';
 
 export interface Cover {
   canDrive: boolean;
@@ -11,6 +12,8 @@ export interface Cover {
 
 export default class Cell {
   protected sign: Sign;
+
+  protected trafficLights: TrafficLights;
 
   protected user: RoadUser;
 
@@ -33,6 +36,14 @@ export default class Cell {
     this.cover = notACover;
     this.xCoord = x;
     this.yCoord = y;
+  }
+
+  set setTrafficLights(trafficLights: TrafficLights) {
+    this.trafficLights = trafficLights;
+  }
+
+  get getTrafficLights(): TrafficLights | null {
+    return this.trafficLights;
   }
 
   set setSign(sign: Sign) {

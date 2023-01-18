@@ -1,1 +1,1 @@
-export const trafficLightsCooldown = 5;
+export const trafficLightsCooldown = 10;
