@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-expressions */
-// import { trafficLightsCooldown } from '../../utils/constants/trafficLightsCooldown';
 import { delay } from '../../utils/helpers/delay';
 import { Pedestrian } from '../trafficParticipants/Pedestrian';
 import { RoadUser } from '../trafficParticipants/RoadUser';
@@ -7,7 +6,7 @@ import { Vehicle } from '../trafficParticipants/Vehicle';
 import { SignWithState, SignWithStateProps } from './SignWithState';
 import { PedestrianStrategy } from './trafficLightsStrategies/PedestrianStrategy';
 import { TrafficLightsStrategy } from './trafficLightsStrategies/TrafficLightsStrategy';
-import { VehicleStrategy } from './trafficLightsStrategies/VahicleStrategy';
+import { VehicleStrategy } from './trafficLightsStrategies/VehicleStrategy';
 
 interface TrafficLightsProps extends SignWithStateProps {
   defaultCanMove: boolean;
@@ -19,11 +18,12 @@ export class TrafficLights extends SignWithState {
   constructor({ cooldown, image, defaultCanMove }: TrafficLightsProps) {
     super({ cooldown, image });
     this.allowMove = defaultCanMove;
+    this.isForNextCell = true;
 
     this.changeState();
   }
 
-  public override callback(roadUser: RoadUser): RoadUser {
+  protected override callbackFunction(roadUser: RoadUser): RoadUser {
     let strategy: TrafficLightsStrategy;
 
     if (roadUser instanceof Pedestrian) {
@@ -44,5 +44,9 @@ export class TrafficLights extends SignWithState {
 
     await delay(1000);
     this.changeState();
+  }
+
+  get canMoveCar(): boolean {
+    return this.allowMove;
   }
 }

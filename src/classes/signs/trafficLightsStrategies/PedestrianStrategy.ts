@@ -9,6 +9,10 @@ export class PedestrianStrategy implements TrafficLightsStrategy {
   }
 
   public processRoadUser(roadUser: RoadUser): void {
+    if (roadUser.getCell.getCover.canDrive) {
+      return;
+    }
+
     if (this.canMove) {
       roadUser.stop();
     } else {

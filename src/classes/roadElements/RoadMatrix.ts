@@ -13,7 +13,7 @@ import { Direction } from '../../utils/constants/Direction';
 import { Vehicle } from '../trafficParticipants/Vehicle';
 import * as cover from '../../utils/constants/cellTypes';
 import { Pedestrian } from '../trafficParticipants/Pedestrian';
-import { trafficLightsCooldown } from '../../utils/constants/trafficLightsCooldown';
+import { TrafficLights } from '../signs/TrafficLights';
 
 export default class RoadMatrix {
   // eslint-disable-next-line no-use-before-define
@@ -26,8 +26,6 @@ export default class RoadMatrix {
   private spawnpoints: SpawnPoint[];
   private sidewalks: Sidewalk[];
   private crossroads: Crossroad[];
-
-  private toChangeTrafficLights: number = 0;
 
   private constructor(size: number) {
     this.size = size;
@@ -141,6 +139,31 @@ export default class RoadMatrix {
         roadUserCreator: Vehicle.createRoadUser,
       })
     );
+
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[0][13],
+        dir: Direction.DOWN,
+        roadUserCreator: Pedestrian.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[0][3],
+        dir: Direction.DOWN,
+        roadUserCreator: Pedestrian.createRoadUser,
+      })
+    );
+    this.spawnpoints.push(
+      new SpawnPoint({
+        cooldown: 6000,
+        cell: this.board[17][0],
+        dir: Direction.RIGHT,
+        roadUserCreator: Pedestrian.createRoadUser,
+      })
+    );
   }
 
   public static createOnce(size: number): RoadMatrix {
@@ -179,14 +202,7 @@ export default class RoadMatrix {
 
     for (let i = 0; i < this.size; i++) {
       for (let j = 0; j < this.size; j++) {
-        // print element based on covering of the sell
-
-        if (
-          this.matrix[i][j].getCover === cover.crosswalkCover &&
-          this.toChangeTrafficLights % trafficLightsCooldown === 0
-        ) {
-          this.matrix[i][j].getTrafficLights.changeState();
-        }
+        // print element based on covering of the cell
 
         if (this.matrix[i][j].getUser instanceof Vehicle) {
           process.stdout.write('V ');
@@ -209,9 +225,14 @@ export default class RoadMatrix {
             process.stdout.write('C ');
             break;
           case cover.crosswalkCover:
-            if (!this.matrix[i][j].getTrafficLights.canMoveCar) {
+            if (
+              this.matrix[i][j].getSign instanceof TrafficLights &&
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              !this.matrix[i][j].getSign.canMoveCar
+            ) {
               process.stdout.write('\x1b[91m= \x1b[39m');
-            } else process.stdout.write('= ');
+            } else process.stdout.write('\x1b[32m= \x1b[39m');
             break;
           case cover.notACover:
             process.stdout.write('  ');
@@ -231,12 +252,11 @@ export default class RoadMatrix {
     console.log(`C -> Crossroad`);
     console.log(`- -> Sidewalk`);
     console.log(`P -> Pedestrian`);
-    console.log(`= -> Crosswalk (allowed to be used by cars)`);
-    console.log(`\x1b[91m= \x1b[39m-> Crosswalk (allowed to be used by pedestrians)\n\n`);
+    console.log(`\x1b[32m= -> Crosswalk (allowed to be used by cars)\x1b[39m`);
+    console.log(`\x1b[91m= -> Crosswalk (allowed to be used by pedestrians)\x1b[39m\n\n`);
   }
 
   public makeOneIteration(): void {
-    this.toChangeTrafficLights++;
     const lines = this.getMovingLines();
     const moved: RoadUser[] = [];
     lines.forEach((list) =>

@@ -18,7 +18,7 @@ export class SignToChangeDirection extends Sign {
     this.possibleDirections = possibleDirections;
   }
 
-  public override callback(roadUser: RoadUser): RoadUser {
+  protected override callbackFunction(roadUser: RoadUser): RoadUser {
     if (roadUser.getChangeDirectionAmount === maxChangeDirectionAmount) {
       return roadUser;
     }
@@ -34,7 +34,7 @@ export class SignToChangeDirection extends Sign {
   }
 
   private getNextDirection(): Direction {
-    const nextDirectionIndex = generateRandNumber(0, 1);
+    const nextDirectionIndex = generateRandNumber(0, this.possibleDirections.length - 1);
     return this.possibleDirections[nextDirectionIndex];
   }
 }

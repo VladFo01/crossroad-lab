@@ -24,18 +24,25 @@ export class RoadUser {
 
   protected cell: Cell;
 
+  protected allowedCover: string;
+
   constructor({ cell, priority, vel, dir }: RoadUserProps) {
     this.cell = cell;
     this.maxVelocity = vel;
     this.currentVelocity = this.maxVelocity;
     this.direction = dir;
     this.priority = priority;
+    this.allowedCover = '';
 
     this.changeDirectionAmount = 0;
   }
 
   set setVelocity(vel: number) {
     this.currentVelocity = vel;
+  }
+
+  get getCell() {
+    return this.cell;
   }
 
   get getVelocity() {
@@ -63,15 +70,11 @@ export class RoadUser {
   }
 
   public go(): void {
-    if (this.currentVelocity === 0) {
-      this.currentVelocity = this.maxVelocity;
-    }
+    this.currentVelocity = this.maxVelocity;
   }
 
   public stop(): void {
-    if (this.currentVelocity !== 0) {
-      this.currentVelocity = 0;
-    }
+    this.currentVelocity = 0;
   }
 
   public static createRoadUser({ cell, dir }: RoadUserProps): RoadUser {
@@ -83,13 +86,26 @@ export class RoadUser {
     });
   }
 
-  public move(): boolean | string {
-    let nextCell = this.calculateNewCell();
+  // eslint-disable-next-line class-methods-use-this
+  protected nextCellBusyHandler(nextCell: Cell): boolean {
+    if (nextCell.getUser) return false;
+    return true;
+  }
 
-    if (nextCell.getSign) {
-      nextCell.getSign.callback(this);
-      nextCell = this.calculateNewCell();
+  public move(): boolean | string {
+    let resolvedCallback = false;
+
+    if (this.cell.getSign) {
+      resolvedCallback = this.cell.getSign.callback(this, false);
     }
+
+    let nextCell = this.calculateNextCell(this.maxVelocity);
+
+    if (!resolvedCallback && nextCell?.getSign) {
+      nextCell.getSign.callback(this, true);
+    }
+
+    nextCell = this.calculateNextCell(this.currentVelocity);
 
     // якщо вийшли за краї матриці
     if (!nextCell) {
@@ -98,10 +114,10 @@ export class RoadUser {
     }
 
     // якщо по ній не можна проїхати
-    if (!nextCell.getCover.canDrive) return false;
+    if (!nextCell.getCover[this.allowedCover]) return false;
 
     // якщо наступна клітинка зайнята
-    if (nextCell.getUser) return false;
+    if (!this.nextCellBusyHandler(nextCell)) return false;
 
     this.cell.setUser = null; // звільнення старої клітинки
 
@@ -111,7 +127,7 @@ export class RoadUser {
     return true;
   }
 
-  private calculateNewCell(): Cell | null {
+  protected calculateNextCell(velocity: number): Cell | null {
     const xCurrent = this.cell.xCoordinate; // поточні координати
     const yCurrent = this.cell.yCoordinate;
 
@@ -123,18 +139,18 @@ export class RoadUser {
     ) {
       case 'Up':
         xNew = xCurrent;
-        yNew = yCurrent - this.currentVelocity;
+        yNew = yCurrent - velocity;
         break;
       case 'Down':
         xNew = xCurrent;
-        yNew = yCurrent + this.currentVelocity;
+        yNew = yCurrent + velocity;
         break;
       case 'Left':
-        xNew = xCurrent - this.currentVelocity;
+        xNew = xCurrent - velocity;
         yNew = yCurrent;
         break;
       case 'Right':
-        xNew = xCurrent + this.currentVelocity;
+        xNew = xCurrent + velocity;
         yNew = yCurrent;
         break;
       default:

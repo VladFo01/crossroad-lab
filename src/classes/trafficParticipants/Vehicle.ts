@@ -14,6 +14,8 @@ export class Vehicle extends RoadUser {
       priority: Priority.VEHICLE,
       vel: Velocity.VEHICLE,
     });
+
+    this.allowedCover = 'canDrive';
   }
 
   public static override createRoadUser({ cell, dir }: VehicleProps): Vehicle {

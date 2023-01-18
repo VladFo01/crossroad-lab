@@ -9,6 +9,10 @@ export class VehicleStrategy implements TrafficLightsStrategy {
   }
 
   public processRoadUser(roadUser: RoadUser): void {
+    if (roadUser.getCell.getCover.crossroad) {
+      return;
+    }
+
     if (this.canMove) {
       roadUser.go();
     } else {
